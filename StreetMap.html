@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map Example</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        header {
+          background-image: url('headerFYP.png'); /* Replace with your image path */
+          background-size: cover;
+          background-position: center;
+          height: 50vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #EFF68B;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .header-content {
+          position: relative;
+          z-index: 2;
+          animation: fadeIn 2s ease-in-out;
+        }
+        
+        header::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+        }
+        body, html {
+          margin: 0;
+          padding: 0;
+          height: fit-content;
+          font-family: "Poppins", sans-serif;
+          background: #131E23;
+        }
+        .container {
+            width: 90vw;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #131E23;
+        }
+        .container h1 {
+            color:#EFF68B;
+            font-size: 7vw;
+            text-align: center;
+            margin: 5px;
+        }
+        .container p{
+            color:white;
+            font-size: 3.2vw;
+            text-align: center;
+            margin: 5px;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button-group button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .dropdown-group {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .dropdown-group select {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #map {
+            height: 70vh;
+            width: 100%;
+            border: 2px solid #333;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Navigation</h1>
+    </div>
+  </header>
+  <div class="container">
+    <h1>Welcome to the Map</h1>
+    <p>This map shows different markers based on the selected level.</p>
+    <div class="button-group">
+        <button onclick="showLevel(1)">Level 1</button>
+        <button onclick="showLevel(2)">Level 2</button>
+        <button onclick="showLevel(3)">Level 3</button>
+    </div>
+    <div class="dropdown-group">
+        <select id="marker1">
+            <option value="">Select Marker 1</option>
+        </select>
+        <select id="marker2">
+            <option value="">Select Marker 2</option>
+        </select>
+        <button onclick="navigate()">Navigate</button>
+    </div>
+    <div id="map"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([3.07179,101.49990], 70);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var customIcon1 = L.icon({
+        iconUrl: 'https://cdn-icons-png.flaticon.com/512/447/447031.png',
+        iconSize: [4 * window.innerWidth / 100, 4 * window.innerHeight / 100], // 4vw x 4vh
+    });
+
+    var customIcon2 = L.icon({
+        iconUrl: 'https://cdn-icons-png.flaticon.com/512/447/447031.png',
+        iconSize: [3 * window.innerWidth / 100, 3 * window.innerHeight / 100], // 3vw x 3vh
+    });
+
+    // Declare each room marker individually
+    var bk1 = { id: 'BK1', geocode: [3.07159, 101.49997], popUp: "BK1", icon: customIcon2 };
+    var bk2 = { id: 'BK2', geocode: [3.07153, 101.499935], popUp: "BK2", icon: customIcon2 };
+    var bk3 = { id: 'BK3', geocode: [3.07150, 101.49988], popUp: "BK3", icon: customIcon2 };
+    var bk4 = { id: 'BK4', geocode: [3.07145, 101.49975], popUp: "BK4", icon: customIcon2 };
+    var bk5 = { id: 'BK5', geocode: [3.07140, 101.49977], popUp: "BK5", icon: customIcon2 };
+    var bk6 = { id: 'BK6', geocode: [3.07135, 101.49982], popUp: "BK6", icon: customIcon2 };
+    var bk7 = { id: 'BK7', geocode: [3.07127, 101.49989], popUp: "BK7", icon: customIcon2 };
+    var bk8 = { id: 'BK8', geocode: [3.07118, 101.49997], popUp: "BK8", icon: customIcon2 };
+    var bk11 = { id: 'B11', geocode: [3.07116,101.50037], popUp: "B11", icon: customIcon2 };
+    var bk12 = { id: 'B12', geocode: [3.07123,101.50044], popUp: "B12", icon: customIcon2 };
+    var bk13 = { id: 'B13', geocode: [3.07132,101.50053], popUp: "B13", icon: customIcon2 };
+    var bk14 = { id: 'B14', geocode: [3.07134,101.50044], popUp: "B14", icon: customIcon2 };
+    var bk15 = { id: 'B15', geocode: [3.07141,101.50050], popUp: "B15", icon: customIcon2 };
+    var bk20 = { id: 'B20', geocode: [3.07200,101.49938], popUp: "B20", icon: customIcon2 };
+    var bk21 = { id: 'B21', geocode: [3.07209,101.49933], popUp: "B21", icon: customIcon2 };
+    var bk22 = { id: 'B22', geocode: [3.07223,101.49930], popUp: "B22", icon: customIcon2 };
+    var bk23 = { id: 'B23', geocode: [3.07235,101.49928], popUp: "B23", icon: customIcon2 };
+    var bk24 = { id: 'B24', geocode: [3.07233,101.49947], popUp: "B24", icon: customIcon2 };
+    var bk25 = { id: 'B25', geocode: [3.07223,101.49949], popUp: "B25", icon: customIcon2 };
+    var bk26 = { id: 'B26', geocode: [3.07212,101.49950], popUp: "B26", icon: customIcon2 };
+    var bk27 = { id: 'B27', geocode: [3.07203,101.49954], popUp: "B27", icon: customIcon2 };
+    var bk28 = { id: 'B28', geocode: [3.07192,101.49962], popUp: "B28", icon: customIcon2 };
+    var bk29 = { id: 'B29', geocode: [3.07197,101.49972], popUp: "B29", icon: customIcon2 };
+    var bk30 = { id: 'B30', geocode: [3.07221,101.49980], popUp: "B30", icon: customIcon2 };
+    var bk31 = { id: 'B31', geocode: [3.07231,101.49974], popUp: "B31", icon: customIcon2 };
+    var bk32 = { id: 'B32', geocode: [3.07240,101.49965], popUp: "B32", icon: customIcon2 };
+    var bk33 = { id: 'B33', geocode: [3.07221,101.49980], popUp: "B33", icon: customIcon2 };
+    var bk34 = { id: 'B34', geocode: [3.07231,101.49974], popUp: "B34", icon: customIcon2 };
+    var bk35 = { id: 'B35', geocode: [3.07240,101.49965], popUp: "B35", icon: customIcon2 };
+    var bk36 = { id: 'B36', geocode: [3.07197,101.49972], popUp: "B36", icon: customIcon2 };
+    var bk37 = { id: 'B37', geocode: [3.07192,101.49962], popUp: "B37", icon: customIcon2 };
+
+    var markersLevel1 = [
+        bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk11, bk12, bk13, bk14, bk15,
+        bk20, bk21, bk22, bk23, bk24, bk25, bk26, bk27, bk28, bk29, bk30, bk31,
+        bk32, bk33, bk34, bk35
+    ];
+
+    var markersLevel2 = [
+        { id: 'Level 2 - Marker 1', geocode: [3.07394, 101.49965], popUp: "Level 2 - Marker 1", icon: customIcon2 },
+        { id: 'Level 2 - Marker 2', geocode: [3.07404, 101.49975], popUp: "Level 2 - Marker 2", icon: customIcon2 },
+    ];
+
+    var markersLevel3 = [
+        { id: 'Level 3 - Marker 1', geocode: [3.07414, 101.49985], popUp: "Level 3 - Marker 1", icon: customIcon2 },
+        { id: 'Level 3 - Marker 2', geocode: [3.07424, 101.49995], popUp: "Level 3 - Marker 2", icon: customIcon2 },
+    ];
+
+    var allMarkers = markersLevel1.concat(markersLevel2).concat(markersLevel3);
+
+    var markerGroup = L.layerGroup().addTo(map);
+    var polyline = null;
+
+    function showLevel(level) {
+        markerGroup.clearLayers();
+        if (polyline) {
+            map.removeLayer(polyline);
+        }
+        var markers;
+        if (level === 1) {
+            markers = markersLevel1;
+        } else if (level === 2) {
+            markers = markersLevel2;
+        } else if (level === 3) {
+            markers = markersLevel3;
+        }
+        markers.forEach(function(marker) {
+            L.marker(marker.geocode, { icon: marker.icon }).addTo(markerGroup).bindPopup(marker.popUp);
+        });
+        updateDropdownOptions(markers);
+    }
+
+    function updateDropdownOptions(markers) {
+        var marker1Select = document.getElementById('marker1');
+        var marker2Select = document.getElementById('marker2');
+        marker1Select.innerHTML = '<option value="">Select Marker 1</option>';
+        marker2Select.innerHTML = '<option value="">Select Marker 2</option>';
+        markers.forEach(function(marker) {
+            var option1 = document.createElement('option');
+            option1.value = marker.id;
+            option1.text = marker.popUp;
+            marker1Select.appendChild(option1);
+            var option2 = document.createElement('option');
+            option2.value = marker.id;
+            option2.text = marker.popUp;
+            marker2Select.appendChild(option2);
+        });
+    }
+
+    function navigate() {
+        markerGroup.clearLayers();
+        var marker1Id = document.getElementById('marker1').value;
+        var marker2Id = document.getElementById('marker2').value;
+        marker =[marker1Id,marker2Id];
+        markers.forEach(function(marker) {
+            L.marker1Id(marker.geocode, { icon: marker.icon }).addTo(markerGroup).bindPopup(marker.popUp);
+        });
+        if (marker1Id && marker2Id && marker1Id !== marker2Id) {
+            var marker1 = allMarkers.find(m => m.id === marker1Id);
+            var marker2 = allMarkers.find(m => m.id === marker2Id);
+            if (marker1 && marker2) {
+                if (polyline) {
+                    map.removeLayer(polyline);
+                }
+                polyline = L.polyline([marker1.geocode, marker2.geocode], { color: 'red' }).addTo(map);
+                map.fitBounds(polyline.getBounds());
+            }
+        } else {
+            alert('Please select two different markers.');
+        }
+    }
+
+    showLevel(1); // Show level 1 markers by default
+</script>
+
+</body>
+</html>
