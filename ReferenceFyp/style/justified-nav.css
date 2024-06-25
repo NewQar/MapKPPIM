@@ -42,16 +42,11 @@ body {
             flex: 1 0 auto;
   }
 }
-
-
-
-
 .card {
  margin-top: 5px;
 }
 
 .svgmap { 
-
   background-repeat: no-repeat;
   overflow: hidden;
    
@@ -61,10 +56,12 @@ circle {
   stroke: #141C25;
   stroke-width: 1;
   cursor: pointer;
+  opacity: 10%;
 }
 
 .label 
 { 
+  font-size: 1px;
   font-family: arial;
   stroke: #ffffff;
   cursor: pointer;
@@ -87,7 +84,7 @@ line.shortest {
 
 .line-label { 
   font-family: arial;
-  font-size: 26px;
+  font-size: 1px;
   stroke: #000000;
 }
 /* Responsive: Portrait tablets and up */

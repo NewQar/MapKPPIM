@@ -38,8 +38,6 @@ function redrawmapwhenviewchanges() {
 
 
 maps.on('click', function (e) {
-
-
     var nodeName = mapdata.allnodes.length;
     console.log(e.latlng.lat + ", " + e.latlng.lng);
 
@@ -48,16 +46,7 @@ maps.on('click', function (e) {
     });
     redrawNodes();
     addNodeToSelect(nodeName);
-
-
-
-
-
-
 });
-
-
-
 
 function dragNode() {
     return function (d, i) {
