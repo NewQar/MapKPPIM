@@ -52,11 +52,10 @@ body {
    
 }
 circle { 
-  fill: rgb(202, 24, 18);
-  stroke: #141C25;
-  stroke-width: 1;
+  fill: rgb(255, 0, 0);
   cursor: pointer;
   opacity: 10%;
+  transform: scale(0.5);
 }
 
 .label 
@@ -70,7 +69,7 @@ circle {
 line { 
   stroke: #1E1E1E;
   stroke-dasharray: 5,5;
-  stroke-width: 2;
+  stroke-width: 0.5;
 }
 
 line.shortest { 

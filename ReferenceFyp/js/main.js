@@ -15,7 +15,7 @@ var mapdata = {
     }
 };
 
-maps = L.map('svg-map').setView([41.070034, 28.806152], 10);
+maps = L.map('svg-map').setView([3.07179,101.49990], 70);
 mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; ' + mapLink + ' Contributors', maxZoom: 18,

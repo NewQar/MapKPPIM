@@ -67,7 +67,7 @@
             margin-bottom: 20px;
         }
         .button-group button {
-            margin: 10px;
+            margin: 0 10px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
@@ -77,17 +77,10 @@
             margin-bottom: 20px;
         }
         .dropdown-group select {
-            margin: 5px;
+            margin: 0 10px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-        }
-        .navi {
-            background-color: white;
-            color:black;
-            border:none;
-            font-size: 16px;
-            margin:5px;
         }
         #map {
             height: 70vh;
@@ -95,7 +88,6 @@
             border: 2px solid #333;
             border-radius: 8px;
         }
-
     </style>
 </head>
 <body>
@@ -119,7 +111,7 @@
         <select id="marker2">
             <option value="">Select Marker 2</option>
         </select>
-        <button class="navi" onclick="navigate()">Navigate</button>
+        <button onclick="navigate()">Navigate</button>
     </div>
     <div id="map"></div>
 </div>
@@ -218,13 +210,14 @@
     function updateDropdownOptions(markers) {
         var marker1Select = document.getElementById('marker1');
         var marker2Select = document.getElementById('marker2');
-        marker1Select.innerHTML = '<option value="">Where are you?</option>';
-        marker2Select.innerHTML = '<option value="">Destination</option>';
+        marker1Select.innerHTML = '<option value="">Select Marker 1</option>';
+        marker2Select.innerHTML = '<option value="">Select Marker 2</option>';
         markers.forEach(function(marker) {
             var option1 = document.createElement('option');
             option1.value = marker.id;
             option1.text = marker.popUp;
             marker1Select.appendChild(option1);
+
             var option2 = document.createElement('option');
             option2.value = marker.id;
             option2.text = marker.popUp;
@@ -233,13 +226,8 @@
     }
 
     function navigate() {
-        markerGroup.clearLayers();
         var marker1Id = document.getElementById('marker1').value;
         var marker2Id = document.getElementById('marker2').value;
-        marker =[marker1Id,marker2Id];
-        markers.forEach(function(marker) {
-            L.marker1Id(marker.geocode, { icon: marker.icon }).addTo(markerGroup).bindPopup(marker.popUp);
-        });
         if (marker1Id && marker2Id && marker1Id !== marker2Id) {
             var marker1 = allMarkers.find(m => m.id === marker1Id);
             var marker2 = allMarkers.find(m => m.id === marker2Id);
