@@ -1,3 +1,31 @@
+header {
+  background-image: url('headerFYP.png'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #EFF68B;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header-content {
+  position: relative;
+  z-index: 2;
+  animation: fadeIn 2s ease-in-out;
+}
+header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
 body {
   padding-top: 20px;
   font-family: "Poppins", sans-serif;
@@ -21,6 +49,12 @@ body {
   padding: 14px 24px;
   font-size: 5vw;
 }
+.jumbotron h1{
+font-size:8vw;
+}
+.jumbotron .p{
+  font-size:5vw;
+}
 
 .navbar {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7),to(#eee));
@@ -28,6 +62,9 @@ body {
   background-image: -o-linear-gradient(top, #f7f7f7 0%,#eee 100%);
   background-image: linear-gradient(to bottom, #f7f7f7 0%,#eee 100%);
   border: 1px solid #e5e5e5;
+}
+.nav-link{
+  font-size:4vw;
 }
 
 @media (min-width: 768px) {

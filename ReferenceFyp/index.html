@@ -7,28 +7,24 @@
   <meta name="description" content="Dijkstra's algorithm In Action with realmap">
   <meta name="author" content="Fatih Şennik">
 
-
-  <title>Dijkstra's algorithm in Action with realmap</title>
-
-  
-  <!-- Bootstrap core CSS -->
+  <title>Indoor Navigation of KPPIM</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
     crossorigin="anonymous">
     <link 
     rel="stylesheet" 
     href="https://cdn.jsdelivr.net/npm/leaflet@0.7.7/dist/leaflet.css"
     />
-  <!-- Custom styles for this template -->
   <link href="style/justified-nav.css" rel="stylesheet">
 </head>
-
+<header>
+<div class="header-content">
+  <h1>Welcome to KPPIM</h1>
+</div>
+</header>
 <body>
 
   <div class="container">
-
     <div class="masthead">
-      <h3 class="text-muted">Welcome to KPPIM</h3>
-
       <nav class="navbar navbar-expand-md navbar-light bg-light rounded mb-3">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
           aria-expanded="false" aria-label="Toggle navigation">
@@ -37,12 +33,11 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav text-md-center nav-justified w-100">
             <li class="nav-item active">
-              <a class="nav-link" href="index.html">Navigation Project
+              <a class="nav-link" href="index.html">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item">
-
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="freelancer@senniksoft.com">Send Messeage</button>
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -72,15 +67,10 @@
                   </div>
                 </div>
               </div>
-
-
-
-
-
-              <a class="nav-link" href="#">Say Hello :) </a>
+              <a class="nav-link" href="#">Room Directory </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="http://www.senniksoft.com">Hire Me !</a>
+              <a class="nav-link" href="https://www.linkedin.com/in/newqar/">The Programmer</a>
             </li>
 
           </ul>
@@ -90,10 +80,10 @@
 
     <!-- Jumbotron -->
     <div class="jumbotron">
-      <h1>Final Year Project </h1>
-      <p class="lead">The Algorith used is the Djikstra algorithm. It's an algorithm for finding the 
+      <h1>Map of KPPIM </h1>
+      <p>The algorithm used is the Djikstra algorithm. It's an algorithm for finding the 
         shortest paths between nodes in a graph. Data used on the map is from Street Map and markers
-        were placed by me</p>
+        were manually placed</p>
       <p>
         <a class="btn btn-lg btn-success" href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm" role="button">Read More on Wiki</a>
       </p>

@@ -167,11 +167,7 @@ function redrawLines() {
 
 
         });
-
-
     elements.exit().remove();
-
-
 };
 
 
@@ -255,7 +251,7 @@ $('#setexample').on('change', function () {
     if (value == 1) {
         clearGraph();
       
-        maps.setView(new L.LatLng(41.005901, 28.975421), 18);
+        maps.setView(new L.LatLng[3.07179,101.49990], 70);
 
         $.getJSON("mapdata/nodesandpaths1.json", function (datad) {
             var importedData = datad;
@@ -283,17 +279,11 @@ $('#setexample').on('change', function () {
             redrawLines();
             redrawNodes();
         });
-
-
-
-
-
-
     }
     else if (value == 2) {
         clearGraph();
  
-        maps.setView(new L.LatLng(40.737, -73.923), 18);
+        maps.setView(new L.LatLng[3.07179,101.49990], 70);
 
         $.getJSON("mapdata/nodesandpaths2.json", function (datad) {
             var importedData = datad;
