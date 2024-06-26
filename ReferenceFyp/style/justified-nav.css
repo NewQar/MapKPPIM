@@ -1,5 +1,8 @@
 body {
   padding-top: 20px;
+  font-family: "Poppins", sans-serif;
+  background: #131E23;
+  color: white;
 }
 
 .footer {
@@ -16,7 +19,7 @@ body {
 }
 .jumbotron .btn {
   padding: 14px 24px;
-  font-size: 21px;
+  font-size: 5vw;
 }
 
 .navbar {
