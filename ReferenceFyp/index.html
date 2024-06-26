@@ -78,8 +78,7 @@
       </nav>
     </div>
 
-    <!-- Jumbotron -->
-    <div class="jumbotron">
+    <div class="Intro">
       <h1>Map of KPPIM </h1>
       <p>The algorithm used is the Djikstra algorithm. It's an algorithm for finding the 
         shortest paths between nodes in a graph. Data used on the map is from Street Map and markers
@@ -88,17 +87,24 @@
         <a class="btn btn-lg btn-success" href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm" role="button">Read More on Wiki</a>
       </p>
     </div>
-    <div class="row">
-      <div class="col-lg-12">
+    <div class="Intro">
         <h1>How to Use it ?</h1>
-        <p class="lead">Click to add nodes and then right-click a node and then again right click on another node to link them each other. You can freely reposition them by dragging the nodes by holding at the center of a circle of the node and moving according to background map. In order to draw on the map effortlessly, you can enter Latitude and Longitude of Your desired location on the map and quickly go there by clicking get me there button. As for the Fun part, select starting node and then select end node and click to start to get the shortest path between selected nodes thanks to Dijkstra's algorithm. </p>
-
-      </div>
+        <p>What room you would like to find in the dropbox below or searchand find where you are by
+ clicking on the find me button. Then find the nearest room to you on the level
+you are and then start route. </p>
     </div>
 
     <!-- Main Map Canvas -->
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-12">         
+      <div class="col-auto" style="margin-top: 5px;">
+        <label class="mr-sm-2" for="inlineFormCustomSelect">Load Examples</label>
+        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="setexample">
+          <option value="0">Ex:</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>   
+        </select>
+        </div>
         <form>
           <div class="form-row align-items-center">
             <div class="col-auto">
@@ -126,14 +132,6 @@
             <div class="col-auto">
               <button type="button" id= "getmethere"class="btn btn-primary">Get Me There</button>
             </div>          
-            <div class="col-auto" style="margin-top: 5px;">
-              <label class="mr-sm-2" for="inlineFormCustomSelect">Load Examples</label>
-              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="setexample">
-                <option value="0">Ex:</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>   
-              </select>
-            </div>
           </div>
         </form>
       </div>
@@ -141,8 +139,8 @@
 
 
     <div class="row">
+      <div id="svg-map" style="width: 90vw; height: 50vh" class="card"></div>
       <div class="col-lg-12">
-        <div id="svg-map" style="width: 90vw; height: 50vh" class="card">
         </div>
         <form style="margin-top:5px;">
           <div class="form-row align-items-center">
