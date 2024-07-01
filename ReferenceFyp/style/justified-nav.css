@@ -95,8 +95,8 @@ body {
 circle { 
   fill: rgb(255, 0, 0);
   cursor: pointer;
-  opacity: 10%;
-  transform: scale(0.5);
+  opacity: 50%;
+  transform: scale(0.2);
 }
 
 .label 
