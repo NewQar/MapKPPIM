@@ -1,74 +1,70 @@
-const chart = () => {
-    const width = 975;
-    const height = 610;
-  
-    const zoom = d3.zoom()
-        .scaleExtent([1, 8])
-        .on("zoom", zoomed);
-  
-    const svg = d3.create("svg")
-        .attr("viewBox", [0, 0, width, height])
-        .attr("width", width)
-        .attr("height", height)
-        .attr("style", "max-width: 100%; height: auto;")
-        .on("click", reset);
-  
-    const path = d3.geoPath();
-  
-    const g = svg.append("g");
-  
-    // Load us.json using d3.json
-    d3.json("us.json").then(function(us) {
-        const states = g.append("g")
-            .attr("fill", "#444")
-            .attr("cursor", "pointer")
-            .selectAll("path")
-            .data(topojson.feature(us, us.objects.states).features)
-            .join("path")
-            .on("click", clicked)
-            .attr("d", path);
-      
-        states.append("title")
-            .text(d => d.properties.name);
-      
-        g.append("path")
-            .attr("fill", "none")
-            .attr("stroke", "white")
-            .attr("stroke-linejoin", "round")
-            .attr("d", path(topojson.mesh(us, us.objects.states, (a, b) => a !== b)));
-    });
-  
-    svg.call(zoom);
-  
-    function reset() {
-        states.transition().style("fill", null);
-        svg.transition().duration(750).call(
-            zoom.transform,
-            d3.zoomIdentity,
-            d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
-        );
+// Define the dimensions of the chart
+const width = 800;
+const height = 400;
+const gridSize = 50; // Size of each grid cell
+
+// Create a zoom behavior
+const zoom = d3.zoom()
+    .scaleExtent([1, 8])
+    .on("zoom", zoomed);
+
+// Create the SVG container for the chart
+const svg = d3.select("#chart")
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("preserveAspectRatio", "xMidYMid meet")
+    .call(zoom)
+    .append("g");
+
+// Generate data for the rooms (3x8 grid)
+const rooms = [];
+for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 8; col++) {
+        rooms.push({
+            id: `room-${row}-${col}`,
+            x: col * gridSize,
+            y: row * gridSize,
+            width: gridSize,
+            height: gridSize,
+            color: "lightblue" // Default color
+        });
     }
-  
-    function clicked(event, d) {
-        const [[x0, y0], [x1, y1]] = path.bounds(d);
-        event.stopPropagation();
-        states.transition().style("fill", null);
-        d3.select(this).transition().style("fill", "red");
-        svg.transition().duration(750).call(
-            zoom.transform,
-            d3.zoomIdentity
-                .translate(width / 2, height / 2)
-                .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
-                .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
-            d3.pointer(event, svg.node())
-        );
-    }
-  
-    function zoomed(event) {
-        const {transform} = event;
-        g.attr("transform", transform);
-        g.attr("stroke-width", 1 / transform.k);
-    }
-  
-    return svg.node();
 }
+// Draw the rooms as rectangles
+const roomRects = svg.selectAll(".room")
+    .data(rooms)
+    .enter().append("rect")
+    .attr("class", "room")
+    .attr("x", d => d.x)
+    .attr("y", d => d.y)
+    .attr("width", d => d.width)
+    .attr("height", d => d.height)
+    .attr("fill", d => d.color)
+    .attr("stroke", "black")
+    .attr("stroke-width", 1)
+    .attr("cursor", "pointer")
+    .on("click", clicked);
+
+// Function to handle zooming
+function zoomed(event) {
+    const { transform } = event;
+    svg.attr("transform", transform);
+    svg.attr("stroke-width", 1 / transform.k);
+}
+
+// Function to handle click on a room
+function clicked(event, d) {
+    // Toggle color on click
+    const newColor = d.color === "lightblue" ? "lightcoral" : "lightblue";
+    d3.select(this).attr("fill", newColor);
+}
+
+// Function to reset zoom and colors
+function reset() {
+    roomRects.transition().attr("fill", "lightblue");
+    svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+}
+
+// Bind reset function to a reset button or click on background
+d3.select("body").on("click", reset);

@@ -93,16 +93,12 @@
  clicking on the find me button. Then find the nearest room to you on the level
 you are and then start route. </p>
     </div>
-    <svg id="svg-container"></svg>
-    <!-- Call the chart function from script.js to render the chart -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Select the SVG container
-            const svg = d3.select("#svg-container");
-            // Call the chart function defined in script.js to render the chart
-            svg.node().appendChild(chart());
-        });
-    </script>
+    <div id="chart-container">
+      <svg id="chart"></svg>
+  </div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="script.js"></script>
 </body>
     <!-- Site footer -->
     <footer class="footer">
