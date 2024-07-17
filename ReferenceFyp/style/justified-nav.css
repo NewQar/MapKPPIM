@@ -126,7 +126,7 @@ line {
 line.shortest { 
   stroke: rgb(155, 0, 245);
   stroke-dasharray: 5,0;
-  stroke-width: 11;
+  stroke-width: 3;
   -webkit-box-shadow: 4px 5px 5px -1px rgba(0,0,0,0.75);
   -moz-box-shadow: 4px 5px 5px -1px rgba(0,0,0,0.75);
   box-shadow: 4px 5px 5px -1px rgba(0,0,0,0.75);

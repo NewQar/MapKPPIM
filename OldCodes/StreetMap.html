@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,41 +8,45 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         header {
-          background-image: url('headerFYP.png'); /* Replace with your image path */
-          background-size: cover;
-          background-position: center;
-          height: 50vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          color: #EFF68B;
-          text-align: center;
-          position: relative;
-          overflow: hidden;
+            background-image: url('headerFYP.png');
+            /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            height: 50vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #EFF68B;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        
+
         .header-content {
-          position: relative;
-          z-index: 2;
-          animation: fadeIn 2s ease-in-out;
+            position: relative;
+            z-index: 2;
+            animation: fadeIn 2s ease-in-out;
         }
-        
+
         header::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 1;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
-        body, html {
-          margin: 0;
-          padding: 0;
-          height: fit-content;
-          font-family: "Poppins", sans-serif;
-          background: #131E23;
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: fit-content;
+            font-family: "Poppins", sans-serif;
+            background: #131E23;
         }
+
         .container {
             width: 90vw;
             max-width: 1200px;
@@ -49,14 +54,16 @@
             padding: 20px;
             background-color: #131E23;
         }
+
         .container h1 {
-            color:#EFF68B;
+            color: #EFF68B;
             font-size: 7vw;
             text-align: center;
             margin: 5px;
         }
-        .container p{
-            color:white;
+
+        .container p {
+            color: white;
             font-size: 3.2vw;
             text-align: center;
             margin: 5px;
@@ -66,22 +73,26 @@
             text-align: center;
             margin-bottom: 20px;
         }
+
         .button-group button {
             margin: 0 10px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
         }
+
         .dropdown-group {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .dropdown-group select {
             margin: 0 10px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
         }
+
         #map {
             height: 70vh;
             width: 100%;
@@ -90,338 +101,333 @@
         }
     </style>
 </head>
+
 <body>
-  <header>
-    <div class="header-content">
-      <h1>Navigation</h1>
+    <header>
+        <div class="header-content">
+            <h1>Navigation</h1>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Welcome to the Map</h1>
+        <p>This map shows different markers based on the selected level.</p>
+        <div class="button-group">
+            <button onclick="showLevel(1)">Level 1</button>
+            <button onclick="showLevel(2)">Level 2</button>
+            <button onclick="showLevel(3)">Level 3</button>
+        </div>
+        <div class="dropdown-group">
+            <select id="marker2">
+                <option value="">Select Destination</option>
+            </select>
+            <button onclick="navigate()">Navigate</button>
+            <button onclick="showUserLocation()">Show My Location</button>
+        </div>
+        <div id="map"></div>
     </div>
-  </header>
-  <div class="container">
-    <h1>Welcome to the Map</h1>
-    <p>This map shows different markers based on the selected level.</p>
-    <div class="button-group">
-        <button onclick="showLevel(1)">Level 1</button>
-        <button onclick="showLevel(2)">Level 2</button>
-        <button onclick="showLevel(3)">Level 3</button>
-    </div>
-    <div class="dropdown-group">
-        <select id="marker2">
-            <option value="">Select Destination</option>
-        </select>
-        <button onclick="navigate()">Navigate</button>
-        <button onclick="showUserLocation()">Show My Location</button>
-    </div>    
-    <div id="map"></div>
-</div>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script>
-    var map = L.map('map').setView([3.07179, 101.49990], 70);
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([3.07179, 101.49990], 70);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-    var customIcon1 = L.icon({
-        iconUrl: 'https://cdn-icons-png.flaticon.com/512/447/447031.png',
-        iconSize: [4 * window.innerWidth / 100, 4 * window.innerHeight / 100], // 4vw x 4vh
-    });
-
-    var customIcon2 = L.icon({
-        iconUrl: 'https://cdn-icons-png.flaticon.com/512/447/447031.png',
-        iconSize: [3 * window.innerWidth / 100, 3 * window.innerHeight / 100], // 3vw x 3vh
-    });
-
-    function transCoodX(coordinate) {
-        return coordinate.toString().slice(3, 7);
-    }
-    function transCoodY(coordinate) {
-        return coordinate.toString().slice(4, 10);
-    }
-
-    // Declare each room marker individually
-    var bk1 = { id: 'BK1', geocode: [transCoodX(3.07159), transCoodY(101.499970)], popUp: "BK1", icon: customIcon2 };
-    var bk2 = { id: 'BK2', geocode: [transCoodX(3.07153), transCoodY(101.499935)], popUp: "BK2", icon: customIcon2 };
-    var bk3 = { id: 'BK3', geocode: [transCoodX(3.07150), transCoodY(101.499880)], popUp: "BK3", icon: customIcon2 };
-    var bk4 = { id: 'BK4', geocode: [transCoodX(3.07145), transCoodY(101.499750)], popUp: "BK4", icon: customIcon2 };
-    var bk5 = { id: 'BK5', geocode: [transCoodX(3.07140), transCoodY(101.499770)], popUp: "BK5", icon: customIcon2 };
-    var bk6 = { id: 'BK6', geocode: [transCoodX(3.07135), transCoodY(101.499820)], popUp: "BK6", icon: customIcon2 };
-    var bk7 = { id: 'BK7', geocode: [transCoodX(3.07127), transCoodY(101.499890)], popUp: "BK7", icon: customIcon2 };
-    var bk8 = { id: 'BK8', geocode: [transCoodX(3.07118), transCoodY(101.499970)], popUp: "BK8", icon: customIcon2 };
-    var bk11 = { id: 'B11', geocode: [transCoodX(3.07116), transCoodY(101.500370)], popUp: "B11", icon: customIcon2 };
-    var bk12 = { id: 'B12', geocode: [transCoodX(3.07123), transCoodY(101.500440)], popUp: "B12", icon: customIcon2 };
-    var bk13 = { id: 'B13', geocode: [transCoodX(3.07132), transCoodY(101.500530)], popUp: "B13", icon: customIcon2 };
-    var bk14 = { id: 'B14', geocode: [transCoodX(3.07134), transCoodY(101.500440)], popUp: "B14", icon: customIcon2 };
-    var bk15 = { id: 'B15', geocode: [transCoodX(3.07141), transCoodY(101.500500)], popUp: "B15", icon: customIcon2 };
-    var bk20 = { id: 'B20', geocode: [transCoodX(3.07200), transCoodY(101.499380)], popUp: "B20", icon: customIcon2 };
-    var bk21 = { id: 'B21', geocode: [transCoodX(3.07209), transCoodY(101.499330)], popUp: "B21", icon: customIcon2 };
-    var bk22 = { id: 'B22', geocode: [transCoodX(3.07223), transCoodY(101.499300)], popUp: "B22", icon: customIcon2 };
-    var bk23 = { id: 'B23', geocode: [transCoodX(3.07235), transCoodY(101.499280)], popUp: "B23", icon: customIcon2 };
-    var bk24 = { id: 'B24', geocode: [transCoodX(3.07233), transCoodY(101.499470)], popUp: "B24", icon: customIcon2 };
-    var bk25 = { id: 'B25', geocode: [transCoodX(3.07223), transCoodY(101.499490)], popUp: "B25", icon: customIcon2 };
-    var bk26 = { id: 'B26', geocode: [transCoodX(3.07215), transCoodY(101.499550)], popUp: "B26", icon: customIcon2 };
-
-    var r1 = { id: 'R1', geocode: [transCoodX(3.07219), transCoodY(101.499550)], icon: customIcon2, neighbours: ['r2'] };
-    var r2 = { id: 'R2', geocode: [transCoodX(3.07219), transCoodY(101.499550)], icon: customIcon2, neighbours: ['r1'] };
-
-    var level1Markers = [bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8,bk20, bk21, bk22, bk23, bk24, bk25, bk26];
-    var level2Markers = [bk11, bk12, bk13, bk14, bk15];
-    var level3Markers = [r1,r2];
-    var awi=0;
-    var markers = L.layerGroup().addTo(map);
-    var roadArray = [bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8,bk11, bk12, bk13, bk14, bk15,bk20, bk21, bk22, bk23, bk24, bk25, bk26];
-
-    function showLevel(level) {
-        markers.clearLayers();
-        var selectedMarkers = level === 1 ? level1Markers : level === 2 ? level2Markers : level3Markers;
-        var dropdown = document.getElementById("marker2");
-        dropdown.innerHTML = '<option value="">Select Destination</option>';
-        selectedMarkers.forEach(function(marker) {
-            var transformedLat = parseFloat('3.0' + marker.geocode[0]);
-            var transformedLng = parseFloat('101.' + marker.geocode[1]);
-            L.marker([transformedLat, transformedLng], { icon: marker.icon }).addTo(markers).bindPopup(marker.popUp);
-            var option = document.createElement("option");
-            option.value = marker.id;
-            option.text = marker.popUp;
-            dropdown.appendChild(option);
+        var customIcon1 = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/447/447031.png',
+            iconSize: [4 * window.innerWidth / 100, 4 * window.innerHeight / 100], // 4vw x 4vh
         });
-    }
 
-    function setNeighbours(markers, threshold = 0.0001) {
-    markers.forEach(marker => {
-        marker.neighbours = markers.filter(neighbour => {
-            if (marker.id !== neighbour.id) {
-                var markerLat = parseFloat('3.0' + marker.geocode[0]);
-                var markerLng = parseFloat('101.' + marker.geocode[1]);
-                var neighbourLat = parseFloat('3.0' + neighbour.geocode[0]);
-                var neighbourLng = parseFloat('101.' + neighbour.geocode[1]);
-                return calculateDistance(markerLat, markerLng, neighbourLat, neighbourLng) < threshold;
-            }
-            return false;
+        var customIcon2 = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/447/447031.png',
+            iconSize: [3 * window.innerWidth / 100, 3 * window.innerHeight / 100], // 3vw x 3vh
         });
-    });
-}
+        var road = L.icon({
+            iconUrl: 'red_dot.png',
+            iconSize: [2 * window.innerWidth / 100, 2 * window.innerHeight / 100], // 3vw x 3vh
+        });
 
-function dijkstra(start, end, roads) {
-    var distances = {};
-    var previous = {};
-    var queue = new PriorityQueue((a, b) => distances[a.id] - distances[b.id]);
+        // Declare each room marker individually
+        var bk1 = { id: 'BK1', geocode: [(3.07159), (101.499970)], popUp: "BK1", icon: customIcon2 };
+        var bk2 = { id: 'BK2', geocode: [(3.07153), (101.499935)], popUp: "BK2", icon: customIcon2 };
+        var bk3 = { id: 'BK3', geocode: [(3.07150), (101.499880)], popUp: "BK3", icon: customIcon2 };
+        var bk4 = { id: 'BK4', geocode: [(3.07145), (101.499750)], popUp: "BK4", icon: customIcon2 };
+        var bk5 = { id: 'BK5', geocode: [(3.07140), (101.499770)], popUp: "BK5", icon: customIcon2 };
+        var bk6 = { id: 'BK6', geocode: [(3.07135), (101.499820)], popUp: "BK6", icon: customIcon2 };
+        var bk7 = { id: 'BK7', geocode: [(3.07127), (101.499890)], popUp: "BK7", icon: customIcon2 };
+        var bk8 = { id: 'BK8', geocode: [(3.07118), (101.499970)], popUp: "BK8", icon: customIcon2 };
+        var bk11 = { id: 'B11', geocode: [(3.07116), (101.500370)], popUp: "B11", icon: customIcon2 };
+        var bk12 = { id: 'B12', geocode: [(3.07123), (101.500440)], popUp: "B12", icon: customIcon2 };
+        var bk13 = { id: 'B13', geocode: [(3.07132), (101.500530)], popUp: "B13", icon: customIcon2 };
+        var bk14 = { id: 'B14', geocode: [(3.07134), (101.500440)], popUp: "B14", icon: customIcon2 };
+        var bk15 = { id: 'B15', geocode: [(3.07141), (101.500500)], popUp: "B15", icon: customIcon2 };
+        var bk20 = { id: 'B20', geocode: [(3.07200), (101.499380)], popUp: "B20", icon: customIcon2 };
+        var bk21 = { id: 'B21', geocode: [(3.07209), (101.499330)], popUp: "B21", icon: customIcon2 };
+        var bk22 = { id: 'B22', geocode: [(3.07223), (101.499300)], popUp: "B22", icon: customIcon2 };
+        var bk23 = { id: 'B23', geocode: [(3.07235), (101.499280)], popUp: "B23", icon: customIcon2 };
+        var bk24 = { id: 'B24', geocode: [(3.07233), (101.499470)], popUp: "B24", icon: customIcon2, neighbours: ['r8'] };
+        var bk25 = { id: 'B25', geocode: [(3.07223), (101.499490)], popUp: "B25", icon: customIcon2, neighbours: ['r8'] };
+        var bk26 = { id: 'B26', geocode: [(3.07215), (101.499550)], popUp: "B26", icon: customIcon2, neighbours: ['r8'] };
 
-    roads.forEach(road => {
-        distances[road.id] = Infinity;
-        previous[road.id] = null;
-        queue.enqueue(road);
-    });
+        var r1 = { id: 'r1', geocode: [(3.07190), (101.49951)], icon: road, popUp: "1", neighbours: ['r2', 'r8'] };
+        var r2 = { id: 'r2', geocode: [(3.07194), (101.49965)], icon: road, popUp: "2", neighbours: ['r1', 'r3'] };
+        var r3 = { id: 'r3', geocode: [(3.07209), (101.49982)], icon: road, popUp: "3", neighbours: ['r2', 'r4'] };
+        var r4 = { id: 'r4', geocode: [(3.07229), (101.49967)], icon: road, popUp: "4", neighbours: ['r3', 'r5'] };
+        var r5 = { id: 'r5', geocode: [(3.07245), (101.49951)], icon: road, popUp: "5", neighbours: ['r4', 'r6'] };
+        var r6 = { id: 'r6', geocode: [(3.07254), (101.49940)], icon: road, popUp: "6", neighbours: ['r5', 'r7'] };
+        var r7 = { id: 'r7', geocode: [(3.07239), (101.49937)], icon: road, popUp: "7", neighbours: ['r6', 'r8'] };
+        var r8 = { id: 'r8', geocode: [(3.07215), (101.49941)], icon: road, popUp: "8", neighbours: ['r7', 'r1'] };
 
-    distances[start.id] = 0;
+        var level1Markers = [bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk20, bk21, bk22, bk23, bk24, bk25, bk26];
+        var level2Markers = [bk11, bk12, bk13, bk14, bk15];
+        var level3Markers = [r1, r2, r3, r4, r5, r6, r7, r8];
+        var awi = 0;
+        var markers = L.layerGroup().addTo(map);
+        var roadArray = [r1, r2, r3, r4, r5, r6, r7, r8];
+        var lat = 0;
+        var lng = 0;
+        var nearestMarkerlat = 0;
+        var nearestMarkerlng = 0;
+        var nearestMarkerID = '';
+        var currentMarkers = [];
+        var allMarkers = {
+            'BK1': bk1,
+            'BK2': bk2,
+            'BK3': bk3,
+            'BK4': bk4,
+            'BK5': bk5,
+            'BK6': bk6,
+            'BK7': bk7,
+            'BK8': bk8,
+            'B11': bk11,
+            'B12': bk12,
+            'B13': bk13,
+            'B14': bk14,
+            'B15': bk15,
+            'B20': bk20,
+            'B21': bk21,
+            'B22': bk22,
+            'B23': bk23,
+            'B24': bk24,
+            'B25': bk25,
+            'B26': bk26,
+            'r1': r1,
+            'r2': r2,
+            'r3': r3,
+            'r4': r4,
+            'r5': r5,
+            'r6': r6,
+            'r7': r7,
+            'r8': r8
+        };
+        var distances = {};
+        var previous = {};
+        var queue = [];
 
-    while (!queue.isEmpty()) {
-        var current = queue.dequeue();
-        if (current.id === end.id) {
-            var path = [];
-            var temp = current;
-            while (previous[temp.id]) {
-                path.push(temp);
-                temp = previous[temp.id];
-            }
-            return path.reverse();
+        function showLevel(level) {
+            markers.clearLayers();
+            var selectedMarkers = level === 1 ? level1Markers : level === 2 ? level2Markers : level3Markers;
+            var dropdown = document.getElementById("marker2");
+            dropdown.innerHTML = '<option value="">Select Destination</option>';
+            selectedMarkers.forEach(function (marker) {
+                L.marker([marker.geocode[0], marker.geocode[1]], { icon: marker.icon }).addTo(markers).bindPopup(marker.popUp);
+                var option = document.createElement("option");
+                option.value = marker.id;
+                option.text = marker.popUp;
+                dropdown.appendChild(option);
+            });
+        }
+        function findNearestMarker(lat, lng, levelMarkers) {
+            var nearestMarker = { id: '', geocode: [(0), (0)], popUp: "" };
+            var ids;
+            var nearestDistance = Infinity;
+            levelMarkers.forEach(function (marker) {
+                var distance = calculateDistance(lat, lng, marker.geocode[0], marker.geocode[1]);
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    ids = marker.id;
+                }
+            });
+            return ids;
+        }
+        function findNearestMarkerlat(lat, lng, levelMarkers) {
+            var nearestMarker = { geocode: [(0), (0)], popUp: "" };
+            var geo1 = 0;
+            var nearestDistance = Infinity;
+            levelMarkers.forEach(function (marker) {
+                var distance = calculateDistance(lat, lng, marker.geocode[0], marker.geocode[1]);
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    geo1 = marker.geocode[0];
+                }
+            });
+            return geo1;
+        }
+        function findNearestMarkerlng(lat, lng, levelMarkers) {
+            var nearestMarker = { geocode: [(0), (0)], popUp: "" };
+            var geo2 = 0;
+            var nearestDistance = Infinity;
+            levelMarkers.forEach(function (marker) {
+                var distance = calculateDistance(lat, lng, marker.geocode[0], marker.geocode[1]);
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    geo2 = marker.geocode[1];
+                }
+            });
+            return geo2;
         }
 
-        current.neighbours.forEach(neighbour => {
-            var alt = distances[current.id] + calculateDistance(
-                parseFloat('3.0' + current.geocode[0]),
-                parseFloat('101.' + current.geocode[1]),
-                parseFloat('3.0' + neighbour.geocode[0]),
-                parseFloat('101.' + neighbour.geocode[1])
-            );
-            if (alt < distances[neighbour.id]) {
-                distances[neighbour.id] = alt;
-                previous[neighbour.id] = current;
-                queue.enqueue(neighbour);
-            }
-        });
-    }
-    return [];
-}
-
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-    function toRadians(degrees) {
-        return degrees * Math.PI / 180;
-    }
-
-    var R = 6371e3; // Radius of the Earth in meters
-    var phi1 = toRadians(lat1);
-    var phi2 = toRadians(lat2);
-    var deltaPhi = toRadians(lat2 - lat1);
-    var deltaLambda = toRadians(lon2 - lon1);
-
-    var a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
-            Math.cos(phi1) * Math.cos(phi2) *
-            Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    var distance = R * c;
-    return distance;
-}
-
-function findNearestMarker(lat, lng, levelMarkers) {
-    var nearestMarker = null;
-    var nearestDistance = Infinity;
-    levelMarkers.forEach(function(marker) {
-        var transformedLat = parseFloat('3.0' + marker.geocode[0]);
-        var transformedLng = parseFloat('101.' + marker.geocode[1]);
-        var distance = calculateDistance(lat, lng, transformedLat, transformedLng);
-        if (distance < nearestDistance) {
-            nearestDistance = distance;
-            nearestMarker = marker;
-        }
-    });
-    return nearestMarker;
-}
-
-function findNearestRoadMarker(lat, lng, roadMarkers) {
-    var nearestMarker = null;
-    var nearestDistance = Infinity;
-    roadMarkers.forEach(function(marker) {
-        var transformedLat = parseFloat('3.0' + marker.geocode[0]);
-        var transformedLng = parseFloat('101.' + marker.geocode[1]);
-        var distance = calculateDistance(lat, lng, transformedLat, transformedLng);
-        if (distance < nearestDistance) {
-            nearestDistance = distance;
-            nearestMarker = marker;
-        }
-    });
-    return nearestMarker;
-}
-
-function showUserLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
-            var nearestMarker = findNearestMarker(lat, lng, level1Markers.concat(level2Markers, level3Markers));
-            var transformedLat = parseFloat('3.0' + nearestMarker.geocode[0]);
-            var transformedLng = parseFloat('101.' + nearestMarker.geocode[1]);
-            map.setView([transformedLat, transformedLng], 70);
-            L.marker([lat, lng], { icon: customIcon1 }).addTo(map).bindPopup("You are here. Nearest marker: " + nearestMarker.popUp).openPopup();
-        });
-    } else {
-        alert("Geolocation is not supported by this browser.");
-    }
-}
-setNeighbours(roadArray);
-function navigate() {
-    var dropdown = document.getElementById("marker2");
-    var selectedMarkerId = dropdown.value;
-    if (!selectedMarkerId) {
-        alert("Please select a destination.");
-        return;
-    }
-    var selectedMarker = level1Markers.concat(level2Markers, level3Markers).find(marker => marker.id === selectedMarkerId);
-    if (!selectedMarker) {
-        alert("Selected marker not found.");
-        return;
-    }
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
-
-            var startMarker = findNearestRoadMarker(lat, lng, roadArray);
-            setNeighbours(roadArray);
-            var path = dijkstra(startMarker, selectedMarker, roadArray);
-
-            if (path.length === 0) {
-                alert("No path found.");
-                return;
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            function toRadians(degrees) {
+                return degrees * Math.PI / 180;
             }
 
-            var polylinePoints = path.map(marker => {
-                var transformedLat = parseFloat('3.0' + marker.geocode[0]);
-                var transformedLng = parseFloat('101.' + marker.geocode[1]);
-                return [transformedLat, transformedLng];
+            var R = 6371e3; // Radius of the Earth in meters
+            var phi1 = toRadians(lat1);
+            var phi2 = toRadians(lat2);
+            var deltaPhi = toRadians(lat2 - lat1);
+            var deltaLambda = toRadians(lon1 - lon2); // Correcting the order here
+
+            var a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+                Math.cos(phi1) * Math.cos(phi2) *
+                Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            return R * c;
+        }
+
+        function dijkstra(start, end, roads) {
+            var distances = [];
+            var previous = [];
+            var queue = [];
+            var alt = [];
+            var Realpath = []
+            var temp = 999999;
+            var endDis = 99999;
+            var endDisPath = 99999;
+            var distance = 0;
+            var nearestDistance = Infinity;
+            var current = allMarkers[start.id];
+
+
+            roads.forEach(function (mark) {
+                temp = calculateDistance(current.geocode[0], current.geocode[1], end.geocode[0], end.geocode[1]);
+                distance = calculateDistance(current.geocode[0], current.geocode[1], mark.geocode[0], mark.geocode[1]);
+                if (temp < distance) {
+                    return [];
+                }
+                else {
+                    nearestDistance = Infinity;
+                    roads.forEach(function (mark2) {
+                        temp = calculateDistance(current.geocode[0], current.geocode[1], end.geocode[0], end.geocode[1]);
+                        var distance = calculateDistance(current.geocode[0], current.geocode[1], mark2.geocode[0], mark2.geocode[1]);
+                        if (temp > distance && distance < nearestDistance) {
+                            nearestDistance = distance;
+                            current = allMarker[mark2.id];
+                        }
+                        endDis = 99999;
+                        endDisPath = 99999;
+                        alert("test");
+                    
+                        Realpath.push(current);
+
+
+                        // Update distances for neighbors
+                        current.neighbours.forEach(function (neighbourId) {
+                            var neighbour = allMarkers[neighbourId];
+                            temp = calculateDistance(current.geocode[0], current.geocode[1], end.geocode[0], end.geocode[1]);
+                            endDis = calculateDistance(neighbour.geocode[0], neighbour.geocode[1], end.geocode[0], end.geocode[1]);
+                            distances[neighbour.id] = calculateDistance(current.geocode[0], current.geocode[1], neighbour.geocode[0], neighbour.geocode[1]);
+                            if (temp < distances[neighbour.id] && endDisPath > endDis) {
+                                alert("masuk");
+                                endDisPath = endDis;
+                                Realpath[current.id] = neighbour;
+                                Realpath.push(neighbour);
+                                previous[neighbour.id] = neighbour.id;
+                                current = Realpath[neighbour];
+                            }
+                            alert("test " + neighbour.id + " " + current.id);
+                        });
+                    });
+                    }
             });
 
-            polylinePoints.unshift([lat, lng]);
-            polylinePoints.push([
-                parseFloat('3.0' + selectedMarker.geocode[0]),
-                parseFloat('101.' + selectedMarker.geocode[1])
-            ]);
+            while (queue.length > 0) {
+                // Sort queue by distances
+                queue.sort(function (a, b) {
+                    return distances[a.id] - distances[b.id];
+                });
+            }
 
-            map.setView([polylinePoints[0][0], polylinePoints[0][1]], 70);
-            L.marker([lat, lng], { icon: customIcon1 }).addTo(map).bindPopup("You are here.");
-            L.marker([
-                parseFloat('3.0' + selectedMarker.geocode[0]),
-                parseFloat('101.' + selectedMarker.geocode[1])
-            ], { icon: customIcon2 }).addTo(map).bindPopup(selectedMarker.popUp).openPopup();
-
-            var polyline = L.polyline(polylinePoints, { color: 'blue' }).addTo(map);
-        });
-    } else {
-        alert("Geolocation is not supported by this browser.");
-    }
-}
-
-class PriorityQueue {
-    constructor(comparator = (a, b) => a - b) {
-        this._heap = [];
-        this._comparator = comparator;
-    }
-    size() {
-        return this._heap.length;
-    }
-    isEmpty() {
-        return this.size() === 0;
-    }
-    peek() {
-        return this._heap[0];
-    }
-    enqueue(value) {
-        this._heap.push(value);
-        this._siftUp();
-        return this.size();
-    }
-    dequeue() {
-        const poppedValue = this.peek();
-        const bottom = this.size() - 1;
-        if (bottom > 0) {
-            this._swap(0, bottom);
+            // Re-add neighbours to the queue if their distance is updated
+            current.neighbours.forEach(function (neighbourId) {
+                var neighbour = allMarkers[neighbourId];
+                if (!queue.includes(neighbour)) {
+                    queue.push(neighbour);
+                }
+            });
+            return [];
         }
-        this._heap.pop();
-        this._siftDown();
-        return poppedValue;
-    }
-    _greater(i, j) {
-        return this._comparator(this._heap[i], this._heap[j]) < 0;
-    }
-    _swap(i, j) {
-        [this._heap[i], this._heap[j]] = [this._heap[j], this._heap[i]];
-    }
-    _siftUp() {
-        let node = this.size() - 1;
-        while (node > 0 && this._greater(node, Math.floor((node - 1) / 2))) {
-            this._swap(node, Math.floor((node - 1) / 2));
-            node = Math.floor((node - 1) / 2);
-        }
-    }
-    _siftDown() {
-        let node = 0;
-        while (
-            (node * 2 + 1 < this.size() && this._greater(node * 2 + 1, node)) ||
-            (node * 2 + 2 < this.size() && this._greater(node * 2 + 2, node))
-        ) {
-            let maxChild = (node * 2 + 2 < this.size() && this._greater(node * 2 + 2, node * 2 + 1))
-                ? node * 2 + 2
-                : node * 2 + 1;
-            this._swap(node, maxChild);
-            node = maxChild;
-        }
-    }
-}
 
-    // Show Level 1 markers by default
-    showLevel(1);
-</script>
+
+        function navigate() {
+            var selectedMarkerId = document.getElementById('marker2').value;
+            var selMark = allMarkers[selectedMarkerId];
+            var end = allMarkers[selectedMarkerId];
+            var polyline;
+
+            navigator.geolocation.getCurrentPosition(function (position) {
+                lat = position.coords.latitude;
+                lng = position.coords.longitude;
+                nearestMarkerlat = findNearestMarkerlat(lat, lng, roadArray);
+                nearestMarkerlng = findNearestMarkerlng(lat, lng, roadArray);
+                nearestMarkerID = findNearestMarker(lat, lng, roadArray);
+                var start = allMarkers[nearestMarkerID];
+                if (polylinePoints) {
+                    map.removeLayer(polyline);
+                }
+
+                map.setView([lat, lng], 70);
+                var userMarker = L.marker([lat, lng], { icon: customIcon2 }).addTo(map).bindPopup("You are here " + start.popUp).openPopup();
+                var polylinePoints = [
+                    [lat, lng],
+                    [nearestMarkerlat, nearestMarkerlng],
+                ];
+
+                var path = dijkstra(start, end, roadArray);
+
+                path.forEach(function (road) {
+                    polylinePoints.push(road.geocode);
+                    alert("test" + road.geocode);
+                });
+
+                polylinePoints.push(selMark.geocode);
+                var polyline = L.polyline(polylinePoints).addTo(map);
+
+                currentMarkers.forEach(function (marker) {
+                    map.removeLayer(marker);
+                });
+
+                polyline = L.polyline(tests, { color: 'blue' }).addTo(map);
+                map.fitBounds(polyline.getBounds());
+            });
+        }
+
+        // Modified showUserLocation function
+        function showUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                    map.setView([lat, lng], 70);
+                    var userMarker = L.marker([lat, lng], { icon: customIcon2 }).addTo(map).bindPopup("You are here").openPopup();
+                })
+            };
+        }
+        // Show Level 1 markers by default
+        showLevel(3);
+    </script>
 </body>
+
 </html>

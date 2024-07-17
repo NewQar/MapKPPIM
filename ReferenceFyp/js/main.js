@@ -48,50 +48,10 @@ maps.on('click', function (e) {
     addNodeToSelect(nodeName);
 });
 
-function dragNode() {
-    return function (d, i) {
-        var d = d;
-
-        var golf = true;
-        maps.on('mousemove', function (e) {
-            if (golf == true) {
-
-                var nodeDatum =
-                    {
-                        name: d.name,
-                        x: e.latlng.lat,
-                        y: e.latlng.lng
-                    };
-
-                mapdata.allnodes[i] = nodeDatum;
-                calculateDistancesbetweennodes();
-                redrawLines();
-                redrawNodes();
-            }
-            else {
-                return
-            }
-
-
-        });
-        maps.on('mouseup', function (e) {
-            golf = false;
-            return
-        });
-
-
-
-
-    }
-};
-
 
 function redrawNodes() {
-
     svg.selectAll("g.nodes").data([]).exit().remove();
-
     var elements = svg.selectAll("g.nodes").data(mapdata.allnodes, function (d, i) { return d.name; });
-
     var nodesEnter = elements.enter().append("g")
         .attr("class", "nodes");
 
@@ -113,7 +73,6 @@ function redrawNodes() {
         .on("mouseenter", function () { maps.dragging.disable(); })
         .on("mouseout", function () { maps.dragging.enable(); })
         .on('contextmenu', function (d, i) { startEndPath(i); })
-        .call(dragManager)
 
 
     nodesEnter
@@ -123,7 +82,6 @@ function redrawNodes() {
         .attr("dy", "5")
         .attr("class", "label")
         .on('contextmenu', function (d, i) { startEndPath(i); })
-        .call(dragManager)
         .text(function (d, i) { return d.name });
 
     elements.exit().remove();
@@ -240,12 +198,6 @@ $("#submit").click(function () {
 });
 
 
-var dragManager = d3.behavior.drag()
-    .on('dragstart', dragNodeStart())
-    .on('drag', dragNode())
-    .on('dragend', dragNodeEnd());
-
-
 $('#setexample').on('change', function () {
     var value = $(this).val();
     if (value == 1) {
@@ -312,12 +264,7 @@ $('#setexample').on('change', function () {
             redrawNodes();
         });
     }
-   
-
-
-
 });
-
 
 
 $("#data-export").click(function (e) {
@@ -356,20 +303,7 @@ $("#getmethere").on('click',function () {
     else {
         maps.setView(new L.LatLng(valuelat, valuelong), 10);
     }
-    
-
-
-
-
-
-
-
-
-
 });
-
-
-
 
 
 $("#data-import").change(function (e) {
@@ -414,8 +348,6 @@ $("#data-import").change(function (e) {
 });
 
 
-
-
 $('#getshortestroute').on('click', function () {
     d3.selectAll("line").classed({ "shortest": false });
     calculateDistancesbetweennodes();
@@ -432,7 +364,6 @@ $('#getshortestroute').on('click', function () {
                 + "line.from" + step.target + "to" + step.source
             );
             stepLine.classed({ "shortest": true });
-
         });
     }
 
@@ -441,13 +372,6 @@ $('#clearmap').on('click', function () {
     clearGraph();
 
 });
-
-
-
-
-
-
-
 
 function addNodeToSelect(nodeName) {
     $(mapdata.getui.htmlSelectStartingNode).append($("<option></option>").attr("value", nodeName).text(nodeName));
@@ -466,10 +390,7 @@ function clearGraph() {
     });
     redrawNodes();
     redrawLines();
-
 };
-
-
 
 function nodeClick(d, i) {
     console.log("node:click %s", i);
@@ -479,19 +400,6 @@ function nodeClick(d, i) {
     d3.event.stopPropagation();
 };
 
-function dragNodeStart() {
-    return function (d, i) {
-        console.log("dragging node " + i);
-
-    }
-};
-
-
-function dragNodeEnd() {
-    return function (d, i) {
-        console.log("node " + i + " repositioned");
-    }
-};
 
 function killEvent() {
     if (d3.event.preventDefault) {
