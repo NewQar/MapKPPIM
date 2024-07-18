@@ -182,14 +182,14 @@
         var r6 = { id: 'r6', geocode: [(3.07254), (101.49940)], icon: road, popUp: "6", neighbours: ['r5', 'r7'] };
         var r7 = { id: 'r7', geocode: [(3.07239), (101.49937)], icon: road, popUp: "7", neighbours: ['r6', 'r8'] };
         var r8 = { id: 'r8', geocode: [(3.07215), (101.49941)], icon: road, popUp: "8", neighbours: ['r7', 'r1','B24'] };
-        var r9 = { id: 'r9', geocode: [(3.07182), (101.49940)], icon: road, popUp: "9", neighbours: ['r8', 'r1','B24'] };
-        var r10 = { id: 'r10', geocode: [(3.07194), (101.49972)], icon: road, popUp: "10", neighbours: ['r17', 'r1','B24'] };
-        var r11 = { id: 'r11', geocode: [(3.07190), (101.49951)], icon: road, popUp: "11", neighbours: ['r12', 'r8'] };
-        var r12 = { id: 'r12', geocode: [(3.07194), (101.49965)], icon: road, popUp: "12", neighbours: ['r11', 'r3'] };
-        var r13 = { id: 'r13', geocode: [(3.07209), (101.49982)], icon: road, popUp: "13", neighbours: ['r12', 'r4'] };
-        var r14 = { id: 'r14', geocode: [(3.07229), (101.49967)], icon: road, popUp: "14", neighbours: ['r13', 'r5','B31','B30'] };
-        var r15 = { id: 'r15', geocode: [(3.07245), (101.49951)], icon: road, popUp: "15", neighbours: ['r14', 'r6','B32'] };
-        var r16 = { id: 'r16', geocode: [(3.07254), (101.49940)], icon: road, popUp: "16", neighbours: ['r15', 'r7'] };
+        var r9 = { id: 'r9', geocode: [(3.07186), (101.49938)], icon: road, popUp: "9", neighbours: ['r1'] };
+        var r10 = { id: 'r10', geocode: [(3.07203), (101.49974)], icon: road, popUp: "10", neighbours: ['r17', 'r1','B24'] };
+        var r11 = { id: 'r11', geocode: [(3.07179), (101.49987)], icon: road, popUp: "11", neighbours: ['r12', 'r8'] };
+        var r12 = { id: 'r12', geocode: [(3.07169), (101.49975)], icon: road, popUp: "12", neighbours: ['r11', 'r3'] };
+        var r13 = { id: 'r13', geocode: [(3.07142), (101.49989)], icon: road, popUp: "13", neighbours: ['r12', 'r4'] };
+        var r14 = { id: 'r14', geocode: [(3.07128), (101.50015)], icon: road, popUp: "14", neighbours: ['r13', 'r5','B31','B30'] };
+        var r15 = { id: 'r15', geocode: [(3.07135), (101.50005)], icon: road, popUp: "15", neighbours: ['r14', 'r6','B32'] };
+        var r16 = { id: 'r16', geocode: [(3.07128), (101.49940)], icon: road, popUp: "16", neighbours: ['r15', 'r7'] };
         var r17 = { id: 'r17', geocode: [(3.07239), (101.49937)], icon: road, popUp: "17", neighbours: ['r16', 'r8'] };
         var r18 = { id: 'r18', geocode: [(3.07215), (101.49941)], icon: road, popUp: "18", neighbours: ['r17', 'r1','B24'] };
         var r19 = { id: 'r19', geocode: [(3.07194), (101.49972)], icon: road, popUp: "19", neighbours: ['r18', 'r1','B24'] };
@@ -197,10 +197,12 @@
         
         var level1Markers = [bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk20, bk21, bk22, bk23, bk24, bk25, bk26,bk30,bk31,bk32];
         var level2Markers = [bk11, bk12, bk13, bk14, bk15];
-        var level3Markers = [r1, r2, r3, r4, r5, r6, r7, r8,r9,r10,r11,r12,r13,r14];
+        var level3Markers = [r1, r2,r3,r4,r5,r6,r7,r8,r9,
+                            r10,r11,r12,r13,r14,r15,r16,r17,r18,r19,r20];
         var awi = 0;
         var markers = L.layerGroup().addTo(map);
-        var roadArray = [r1, r2, r3, r4, r5, r6, r7, r8,r9,r10,r11,r12,r13,r14];
+        var roadArray = [r1, r2,r3,r4,r5,r6,r7,r8,r9,
+                        r10,r11,r12,r13,r14,r15,r16,r17,r18,r19,r20];
         var lat = 0;
         var lng = 0;
         var polyline;
@@ -209,40 +211,16 @@
         var nearestMarkerID = '';
         var currentMarkers = [];
         var allMarkers = {
-            'BK1': bk1,
-            'BK2': bk2,
-            'BK3': bk3,
-            'BK4': bk4,
-            'BK5': bk5,
-            'BK6': bk6,
-            'BK7': bk7,
-            'BK8': bk8,
-            'B11': bk11,
-            'B12': bk12,
-            'B13': bk13,
-            'B14': bk14,
-            'B15': bk15,
-            'B20': bk20,
-            'B21': bk21,
-            'B22': bk22,
-            'B23': bk23,
-            'B24': bk24,
-            'B25': bk25,
-            'B26': bk26,
-            'B30': bk30,
-            'B31': bk31,
-            'B32': bk32,
-            'r1': r1,
-            'r2': r2,
-            'r3': r3,
-            'r4': r4,
-            'r5': r5,
-            'r6': r6,
-            'r7': r7,
-            'r8': r8,
-            'r9': r9,
-            'r10':r10,
-            'r11':r11,
+            'BK1': bk1,'BK2': bk2,'BK3': bk3,'BK4': bk4,'BK5': bk5,
+            'BK6': bk6,'BK7': bk7,'BK8': bk8,'B11': bk11,'B12': bk12,
+            'B13': bk13,'B14': bk14,'B15': bk15,'B20': bk20,'B21': bk21,
+            'B22': bk22,'B23': bk23,'B24': bk24,'B25': bk25,'B26': bk26,
+            'B30': bk30,'B31': bk31,'B32': bk32,
+
+            'r1': r1,'r2': r2,'r3': r3,'r4': r4,'r5': r5,
+            'r6': r6,'r7': r7,'r8': r8,'r9': r9,'r10':r10,
+            'r11':r11, 'r12': r12,'r13': r13,'r14': r14,'r15': r15,
+            'r16': r16,'r17': r17,'r18': r18,'r19': r19,'r20':r20,
         };
         var distances = {};
         var previous = {};
