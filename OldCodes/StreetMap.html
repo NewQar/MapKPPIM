@@ -184,21 +184,34 @@
         var r8 = { id: 'r8', geocode: [(3.07215), (101.49941)], icon: road, popUp: "8", neighbours: ['r7', 'r1','B24'] };
         var r9 = { id: 'r9', geocode: [(3.07186), (101.49938)], icon: road, popUp: "9", neighbours: ['r1'] };
         var r10 = { id: 'r10', geocode: [(3.07203), (101.49974)], icon: road, popUp: "10", neighbours: ['r17', 'r1','B24'] };
+        
         var r11 = { id: 'r11', geocode: [(3.07179), (101.49987)], icon: road, popUp: "11", neighbours: ['r12', 'r8'] };
         var r12 = { id: 'r12', geocode: [(3.07169), (101.49975)], icon: road, popUp: "12", neighbours: ['r11', 'r3'] };
-        var r13 = { id: 'r13', geocode: [(3.07142), (101.49989)], icon: road, popUp: "13", neighbours: ['r12', 'r4'] };
-        var r14 = { id: 'r14', geocode: [(3.07128), (101.50015)], icon: road, popUp: "14", neighbours: ['r13', 'r5','B31','B30'] };
+        var r13 = { id: 'r13', geocode: [(3.07142), (101.49989)], icon: road, popUp: "Bawah 13", neighbours: ['r12', 'r4'] };
+        var r14 = { id: 'r14', geocode: [(3.07128), (101.50016)], icon: road, popUp: "14", neighbours: ['r13', 'r5','B31','B30'] };
         var r15 = { id: 'r15', geocode: [(3.07135), (101.50005)], icon: road, popUp: "15", neighbours: ['r14', 'r6','B32'] };
-        var r16 = { id: 'r16', geocode: [(3.07128), (101.49940)], icon: road, popUp: "16", neighbours: ['r15', 'r7'] };
-        var r17 = { id: 'r17', geocode: [(3.07239), (101.49937)], icon: road, popUp: "17", neighbours: ['r16', 'r8'] };
-        var r18 = { id: 'r18', geocode: [(3.07215), (101.49941)], icon: road, popUp: "18", neighbours: ['r17', 'r1','B24'] };
-        var r19 = { id: 'r19', geocode: [(3.07194), (101.49972)], icon: road, popUp: "19", neighbours: ['r18', 'r1','B24'] };
-        var r20 = { id: 'r20', geocode: [(3.07194), (101.49972)], icon: road, popUp: "20", neighbours: ['r19', 'r1','B24'] };
+        var r16 = { id: 'r16', geocode: [(3.07149), (101.50016)], icon: road, popUp: "16", neighbours: ['r15', 'r7'] };
+        var r17 = { id: 'r17', geocode: [(3.07158), (101.50009)], icon: road, popUp: "17", neighbours: ['r16', 'r8'] };
+        var r18 = { id: 'r18', geocode: [(3.07160), (101.50016)], icon: road, popUp: "18", neighbours: ['r17', 'r1','B24'] };
+        var r19 = { id: 'r19', geocode: [(3.07147), (101.49997)], icon: road, popUp: "19", neighbours: ['r18', 'r1','B24'] };
+        var r20 = { id: 'r20', geocode: [(3.07137), (101.49985)], icon: road, popUp: "20", neighbours: ['r19', 'r1','B24'] };
+        
+        var r21 = { id: 'r21', geocode: [(3.07123), (101.49999)], icon: road, popUp: "21", neighbours: ['r2', 'r8'] };
+        var r22 = { id: 'r22', geocode: [(3.07120), (101.50030)], icon: road, popUp: "22", neighbours: ['r1', 'r3'] };
+        var r23 = { id: 'r23', geocode: [(3.07120), (101.50016)], icon: road, popUp: "atas 23", neighbours: ['r2', 'r4'] };
+        var r24 = { id: 'r24', geocode: [(3.07117), (101.50016)], icon: road, popUp: "bawah 24", neighbours: ['r3', 'r5','B31','B30'] };
+        var r25 = { id: 'r25', geocode: [(3.07103), (101.50012)], icon: road, popUp: "25", neighbours: ['r4', 'r6','B32'] };
+        var r26 = { id: 'r26', geocode: [(3.07254), (101.49940)], icon: road, popUp: "26", neighbours: ['r5', 'r7'] };
+        var r27 = { id: 'r27', geocode: [(3.07239), (101.49937)], icon: road, popUp: "27", neighbours: ['r6', 'r8'] };
+        var r28 = { id: 'r28', geocode: [(3.07215), (101.49941)], icon: road, popUp: "28", neighbours: ['r7', 'r1','B24'] };
+        var r29 = { id: 'r29', geocode: [(3.07186), (101.49938)], icon: road, popUp: "29", neighbours: ['r1'] };
+        var r30 = { id: 'r30', geocode: [(3.07203), (101.49974)], icon: road, popUp: "30", neighbours: ['r17', 'r1','B24'] };
         
         var level1Markers = [bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk20, bk21, bk22, bk23, bk24, bk25, bk26,bk30,bk31,bk32];
         var level2Markers = [bk11, bk12, bk13, bk14, bk15];
-        var level3Markers = [r1, r2,r3,r4,r5,r6,r7,r8,r9,
-                            r10,r11,r12,r13,r14,r15,r16,r17,r18,r19,r20];
+        var level3Markers = [r1, r2,r3,r4,r5,r6,r7,r8,r9,r10,
+                            r11,r12,r13,r14,r15,r16,r17,r18,r19,r20,
+                            r21, r22,r23,r24,r25,r26,r27,r28,r29,r30,];
         var awi = 0;
         var markers = L.layerGroup().addTo(map);
         var roadArray = [r1, r2,r3,r4,r5,r6,r7,r8,r9,
