@@ -170,23 +170,40 @@
         var bk25 = { id: 'B25', geocode: [(3.07223), (101.499490)], popUp: "B25", icon: customIcon2, neighbours: ['r8'] };
         var bk26 = { id: 'B26', geocode: [(3.07215), (101.499550)], popUp: "B26", icon: customIcon2, neighbours: ['r8'] };
 
+        var bk30 = { id: 'B30', geocode: [(3.07223), (101.49979)], popUp: "B30", icon: customIcon2,neighbours: ['r4'] };
+        var bk31 = { id: 'B31', geocode: [(3.07236), (101.49971)], popUp: "B31", icon: customIcon2,neighbours: ['r4'] };
+        var bk32 = { id: 'B32', geocode: [(3.07247), (101.49960)], popUp: "B32", icon: customIcon2,neighbours: ['r5'] };
+
         var r1 = { id: 'r1', geocode: [(3.07190), (101.49951)], icon: road, popUp: "1", neighbours: ['r2', 'r8'] };
         var r2 = { id: 'r2', geocode: [(3.07194), (101.49965)], icon: road, popUp: "2", neighbours: ['r1', 'r3'] };
         var r3 = { id: 'r3', geocode: [(3.07209), (101.49982)], icon: road, popUp: "3", neighbours: ['r2', 'r4'] };
-        var r4 = { id: 'r4', geocode: [(3.07229), (101.49967)], icon: road, popUp: "4", neighbours: ['r3', 'r5'] };
-        var r5 = { id: 'r5', geocode: [(3.07245), (101.49951)], icon: road, popUp: "5", neighbours: ['r4', 'r6'] };
+        var r4 = { id: 'r4', geocode: [(3.07229), (101.49967)], icon: road, popUp: "4", neighbours: ['r3', 'r5','B31','B30'] };
+        var r5 = { id: 'r5', geocode: [(3.07245), (101.49951)], icon: road, popUp: "5", neighbours: ['r4', 'r6','B32'] };
         var r6 = { id: 'r6', geocode: [(3.07254), (101.49940)], icon: road, popUp: "6", neighbours: ['r5', 'r7'] };
         var r7 = { id: 'r7', geocode: [(3.07239), (101.49937)], icon: road, popUp: "7", neighbours: ['r6', 'r8'] };
-        var r8 = { id: 'r8', geocode: [(3.07215), (101.49941)], icon: road, popUp: "8", neighbours: ['r7', 'r1'] };
-
-        var level1Markers = [bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk20, bk21, bk22, bk23, bk24, bk25, bk26];
+        var r8 = { id: 'r8', geocode: [(3.07215), (101.49941)], icon: road, popUp: "8", neighbours: ['r7', 'r1','B24'] };
+        var r9 = { id: 'r9', geocode: [(3.07182), (101.49940)], icon: road, popUp: "9", neighbours: ['r8', 'r1','B24'] };
+        var r10 = { id: 'r10', geocode: [(3.07194), (101.49972)], icon: road, popUp: "10", neighbours: ['r17', 'r1','B24'] };
+        var r11 = { id: 'r11', geocode: [(3.07190), (101.49951)], icon: road, popUp: "11", neighbours: ['r12', 'r8'] };
+        var r12 = { id: 'r12', geocode: [(3.07194), (101.49965)], icon: road, popUp: "12", neighbours: ['r11', 'r3'] };
+        var r13 = { id: 'r13', geocode: [(3.07209), (101.49982)], icon: road, popUp: "13", neighbours: ['r12', 'r4'] };
+        var r14 = { id: 'r14', geocode: [(3.07229), (101.49967)], icon: road, popUp: "14", neighbours: ['r13', 'r5','B31','B30'] };
+        var r15 = { id: 'r15', geocode: [(3.07245), (101.49951)], icon: road, popUp: "15", neighbours: ['r14', 'r6','B32'] };
+        var r16 = { id: 'r16', geocode: [(3.07254), (101.49940)], icon: road, popUp: "16", neighbours: ['r15', 'r7'] };
+        var r17 = { id: 'r17', geocode: [(3.07239), (101.49937)], icon: road, popUp: "17", neighbours: ['r16', 'r8'] };
+        var r18 = { id: 'r18', geocode: [(3.07215), (101.49941)], icon: road, popUp: "18", neighbours: ['r17', 'r1','B24'] };
+        var r19 = { id: 'r19', geocode: [(3.07194), (101.49972)], icon: road, popUp: "19", neighbours: ['r18', 'r1','B24'] };
+        var r20 = { id: 'r20', geocode: [(3.07194), (101.49972)], icon: road, popUp: "20", neighbours: ['r19', 'r1','B24'] };
+        
+        var level1Markers = [bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk20, bk21, bk22, bk23, bk24, bk25, bk26,bk30,bk31,bk32];
         var level2Markers = [bk11, bk12, bk13, bk14, bk15];
-        var level3Markers = [r1, r2, r3, r4, r5, r6, r7, r8];
+        var level3Markers = [r1, r2, r3, r4, r5, r6, r7, r8,r9,r10,r11,r12,r13,r14];
         var awi = 0;
         var markers = L.layerGroup().addTo(map);
-        var roadArray = [r1, r2, r3, r4, r5, r6, r7, r8];
+        var roadArray = [r1, r2, r3, r4, r5, r6, r7, r8,r9,r10,r11,r12,r13,r14];
         var lat = 0;
         var lng = 0;
+        var polyline;
         var nearestMarkerlat = 0;
         var nearestMarkerlng = 0;
         var nearestMarkerID = '';
@@ -212,6 +229,9 @@
             'B24': bk24,
             'B25': bk25,
             'B26': bk26,
+            'B30': bk30,
+            'B31': bk31,
+            'B32': bk32,
             'r1': r1,
             'r2': r2,
             'r3': r3,
@@ -219,7 +239,10 @@
             'r5': r5,
             'r6': r6,
             'r7': r7,
-            'r8': r8
+            'r8': r8,
+            'r9': r9,
+            'r10':r10,
+            'r11':r11,
         };
         var distances = {};
         var previous = {};
@@ -297,85 +320,55 @@
             return R * c;
         }
 
-        function dijkstra(start, end, roads) {
-            var distances = [];
-            var previous = [];
-            var queue = [];
-            var alt = [];
-            var Realpath = []
-            var temp = 999999;
-            var endDis = 99999;
-            var endDisPath = 99999;
-            var distance = 0;
-            var nearestDistance = Infinity;
-            var current = allMarkers[start.id];
+        function dijkstra(start, end, graph) {
+            var distances = {};
+            var previous = {};
+            var pq = new PriorityQueue();
 
-
-            roads.forEach(function (mark) {
-                temp = calculateDistance(current.geocode[0], current.geocode[1], end.geocode[0], end.geocode[1]);
-                distance = calculateDistance(current.geocode[0], current.geocode[1], mark.geocode[0], mark.geocode[1]);
-                if (temp < distance) {
-                    return [];
-                }
-                else {
-                    nearestDistance = Infinity;
-                    roads.forEach(function (mark2) {
-                        temp = calculateDistance(current.geocode[0], current.geocode[1], end.geocode[0], end.geocode[1]);
-                        var distance = calculateDistance(current.geocode[0], current.geocode[1], mark2.geocode[0], mark2.geocode[1]);
-                        if (temp > distance && distance < nearestDistance) {
-                            nearestDistance = distance;
-                            current = allMarker[mark2.id];
-                        }
-                        endDis = 99999;
-                        endDisPath = 99999;
-                        alert("test");
-                    
-                        Realpath.push(current);
-
-
-                        // Update distances for neighbors
-                        current.neighbours.forEach(function (neighbourId) {
-                            var neighbour = allMarkers[neighbourId];
-                            temp = calculateDistance(current.geocode[0], current.geocode[1], end.geocode[0], end.geocode[1]);
-                            endDis = calculateDistance(neighbour.geocode[0], neighbour.geocode[1], end.geocode[0], end.geocode[1]);
-                            distances[neighbour.id] = calculateDistance(current.geocode[0], current.geocode[1], neighbour.geocode[0], neighbour.geocode[1]);
-                            if (temp < distances[neighbour.id] && endDisPath > endDis) {
-                                alert("masuk");
-                                endDisPath = endDis;
-                                Realpath[current.id] = neighbour;
-                                Realpath.push(neighbour);
-                                previous[neighbour.id] = neighbour.id;
-                                current = Realpath[neighbour];
-                            }
-                            alert("test " + neighbour.id + " " + current.id);
-                        });
-                    });
-                    }
-            });
-
-            while (queue.length > 0) {
-                // Sort queue by distances
-                queue.sort(function (a, b) {
-                    return distances[a.id] - distances[b.id];
-                });
+            for (var node in graph) {
+                distances[node] = Infinity;
+                previous[node] = null;
             }
 
-            // Re-add neighbours to the queue if their distance is updated
-            current.neighbours.forEach(function (neighbourId) {
-                var neighbour = allMarkers[neighbourId];
-                if (!queue.includes(neighbour)) {
-                    queue.push(neighbour);
-                }
-            });
-            return [];
-        }
+            distances[start.id] = 0;
+            pq.enqueue(start.id, 0);
 
+            while (!pq.isEmpty()) {
+                var current = pq.dequeue().element;
+
+                if (current === end.id) break;
+
+                var neighbors = graph[current].neighbours;
+                for (var neighbor of neighbors) {
+                    var distance = distances[current] + calculateDistance(
+                        graph[current].geocode[0],
+                        graph[current].geocode[1],
+                        graph[neighbor].geocode[0],
+                        graph[neighbor].geocode[1]
+                    );
+
+                    if (distance < distances[neighbor]) {
+                        distances[neighbor] = distance;
+                        previous[neighbor] = current;
+                        pq.enqueue(neighbor, distance);
+                    }
+                }
+            }
+
+            var path = [];
+            var at = end.id;
+            while (at !== null) {
+                path.unshift(graph[at]);
+                at = previous[at];
+            }
+
+            return path;
+        }
 
         function navigate() {
             var selectedMarkerId = document.getElementById('marker2').value;
             var selMark = allMarkers[selectedMarkerId];
             var end = allMarkers[selectedMarkerId];
-            var polyline;
 
             navigator.geolocation.getCurrentPosition(function (position) {
                 lat = position.coords.latitude;
@@ -384,35 +377,59 @@
                 nearestMarkerlng = findNearestMarkerlng(lat, lng, roadArray);
                 nearestMarkerID = findNearestMarker(lat, lng, roadArray);
                 var start = allMarkers[nearestMarkerID];
-                if (polylinePoints) {
+
+                if (polyline) {
                     map.removeLayer(polyline);
                 }
 
                 map.setView([lat, lng], 70);
-                var userMarker = L.marker([lat, lng], { icon: customIcon2 }).addTo(map).bindPopup("You are here " + start.popUp).openPopup();
+                var userMarker = L.marker([lat, lng], { icon: customIcon2 }).addTo(map).bindPopup("You are here " + end.popUp).openPopup();
                 var polylinePoints = [
                     [lat, lng],
                     [nearestMarkerlat, nearestMarkerlng],
                 ];
 
-                var path = dijkstra(start, end, roadArray);
+                var path = dijkstra(start, end, allMarkers);
 
                 path.forEach(function (road) {
                     polylinePoints.push(road.geocode);
-                    alert("test" + road.geocode);
                 });
 
-                polylinePoints.push(selMark.geocode);
-                var polyline = L.polyline(polylinePoints).addTo(map);
-
-                currentMarkers.forEach(function (marker) {
-                    map.removeLayer(marker);
-                });
-
-                polyline = L.polyline(tests, { color: 'blue' }).addTo(map);
+                polyline = L.polyline(polylinePoints, { color: 'blue' }).addTo(map);
                 map.fitBounds(polyline.getBounds());
             });
         }
+
+        // Priority Queue implementation
+        function PriorityQueue() {
+            this.collection = [];
+        }
+
+        PriorityQueue.prototype.enqueue = function (element, priority) {
+            var queueElement = { element, priority };
+            var added = false;
+
+            for (var i = 0; i < this.collection.length; i++) {
+                if (queueElement.priority < this.collection[i].priority) {
+                    this.collection.splice(i, 0, queueElement);
+                    added = true;
+                    break;
+                }
+            }
+
+            if (!added) {
+                this.collection.push(queueElement);
+            }
+        };
+
+        PriorityQueue.prototype.dequeue = function () {
+            return this.collection.shift();
+        };
+
+        PriorityQueue.prototype.isEmpty = function () {
+            return this.collection.length === 0;
+        };
+
 
         // Modified showUserLocation function
         function showUserLocation() {
