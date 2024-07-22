@@ -147,6 +147,14 @@
             iconUrl: 'red_dot.png',
             iconSize: [2 * window.innerWidth / 100, 2 * window.innerHeight / 100], // 3vw x 3vh
         });
+        var stairs = L.icon({
+            iconUrl: 'logo/stairs.png',
+            iconSize: [2 * window.innerWidth / 100, 2 * window.innerHeight / 100], // 3vw x 3vh
+        });
+        var lift = L.icon({
+            iconUrl: 'logo/lift.png',
+            iconSize: [2 * window.innerWidth / 100, 2 * window.innerHeight / 100], // 3vw x 3vh
+        });
 
         // Declare each room marker individually
         var bk1 = { id: 'BK1', geocode: [(3.07159), (101.499970)], popUp: "BK1", icon: customIcon2 };
@@ -173,6 +181,21 @@
         var bk30 = { id: 'B30', geocode: [(3.07223), (101.49979)], popUp: "B30", icon: customIcon2,neighbours: ['r4'] };
         var bk31 = { id: 'B31', geocode: [(3.07236), (101.49971)], popUp: "B31", icon: customIcon2,neighbours: ['r4'] };
         var bk32 = { id: 'B32', geocode: [(3.07247), (101.49960)], popUp: "B32", icon: customIcon2,neighbours: ['r5'] };
+
+        var s1 = { id: 's1', geocode: [(3.07190), (101.49951)], icon: road, popUp: "1", neighbours: ['r2', 'r8'] };
+        var s2 = { id: 's2', geocode: [(3.07194), (101.49965)], icon: road, popUp: "2", neighbours: ['r1', 'r3'] };
+        var s3 = { id: 's3', geocode: [(3.07209), (101.49982)], icon: road, popUp: "3", neighbours: ['r2', 'r4'] };
+        var s4 = { id: 's4', geocode: [(3.07229), (101.49967)], icon: road, popUp: "4", neighbours: ['r3', 'r5','B31','B30'] };
+        var s5 = { id: 's5', geocode: [(3.07245), (101.49951)], icon: road, popUp: "5", neighbours: ['r4', 'r6','B32'] };
+        var s6 = { id: 's6', geocode: [(3.07254), (101.49940)], icon: road, popUp: "6", neighbours: ['r5', 'r7'] };
+        var s7 = { id: 's7', geocode: [(3.07239), (101.49937)], icon: road, popUp: "7", neighbours: ['r6', 'r8'] };
+        var s8 = { id: 's8', geocode: [(3.07215), (101.49941)], icon: road, popUp: "8", neighbours: ['r7', 'r1','B24'] };
+        var s9 = { id: 's9', geocode: [(3.07186), (101.49938)], icon: road, popUp: "9", neighbours: ['r1'] };
+        var s10 = { id: 's10', geocode: [(3.07203), (101.49974)], icon: road, popUp: "10", neighbours: ['r17', 'r1','B24'] };
+        var s11 = { id: 's11', geocode: [(3.07179), (101.49987)], icon: road, popUp: "11", neighbours: ['r12', 'r8'] };
+        var s12 = { id: 's12', geocode: [(3.07169), (101.49975)], icon: road, popUp: "12", neighbours: ['r11', 'r3'] };
+        var s13 = { id: 's13', geocode: [(3.07142), (101.49989)], icon: road, popUp: "Bawah 13", neighbours: ['r12', 'r4'] };
+
 
         var r1 = { id: 'r1', geocode: [(3.07190), (101.49951)], icon: road, popUp: "1", neighbours: ['r2', 'r8'] };
         var r2 = { id: 'r2', geocode: [(3.07194), (101.49965)], icon: road, popUp: "2", neighbours: ['r1', 'r3'] };
@@ -201,7 +224,7 @@
         var r23 = { id: 'r23', geocode: [(3.07120), (101.50016)], icon: road, popUp: "atas 23", neighbours: ['r2', 'r4'] };
         var r24 = { id: 'r24', geocode: [(3.07117), (101.50016)], icon: road, popUp: "bawah 24", neighbours: ['r3', 'r5','B31','B30'] };
         var r25 = { id: 'r25', geocode: [(3.07103), (101.50012)], icon: road, popUp: "25", neighbours: ['r4', 'r6','B32'] };
-        var r26 = { id: 'r26', geocode: [(3.07254), (101.49940)], icon: road, popUp: "26", neighbours: ['r5', 'r7'] };
+        var r26 = { id: 'r26', geocode: [(3.07130), (101.50049)], icon: road, popUp: "26", neighbours: ['r5', 'r7'] };
         var r27 = { id: 'r27', geocode: [(3.07239), (101.49937)], icon: road, popUp: "27", neighbours: ['r6', 'r8'] };
         var r28 = { id: 'r28', geocode: [(3.07215), (101.49941)], icon: road, popUp: "28", neighbours: ['r7', 'r1','B24'] };
         var r29 = { id: 'r29', geocode: [(3.07186), (101.49938)], icon: road, popUp: "29", neighbours: ['r1'] };
