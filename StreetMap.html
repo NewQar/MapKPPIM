@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map Example</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+        integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@0.7.7/dist/leaflet.css" />
+    <style>
+        header {
+            background-image: url('headerFYP.png');
+            /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            height: 50vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #EFF68B;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content h1 {
+            color: #EFF68B;
+            position: relative;
+            z-index: 2;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 10.5vw;
+            text-align: center;
+            margin: 5px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .header-content p {
+            color: #EFF68B;
+            position: relative;
+            z-index: 2;
+            font-size: 4vw;
+            text-align: center;
+            margin: 5px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        body,
+        html {
+            margin: 0;
+            height: fit-content;
+            font-family: "Poppins", sans-serif;
+            background: #131E23;
+        }
+
+        .container {
+            width: 90vw;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #131E23;
+        }
+
+        .container h1 {
+            color: #EFF68B;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 7vw;
+            text-align: center;
+            margin: 5px;
+        }
+
+        .container p {
+            color: white;
+            font-size: 2.4vw;
+            text-align: center;
+            margin: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            /* Centers buttons horizontally */
+            gap: 10px;
+            /* Space between buttons */
+            margin-bottom: 10px;
+            padding: 5px;
+            /* Add some padding to the container */
+        }
+
+        .button-group button {
+            flex: 1;
+            /* Allows buttons to expand and fill the available space */
+            padding: 10px 10px;
+            /* Button padding for better appearance */
+            font-size: 12px;
+            /* Font size */
+            color: #000000;
+            /* Button text color */
+            background-color: #DB8A50;
+            /* Button background color */
+            border: none;
+            /* Remove border */
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            /* Transition for hover effect */
+        }
+
+        .button-group button:hover {
+            background-color: #EFF68B;
+            /* Darker background on hover */
+        }
+
+        .dropdown-group {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .dropdown-group select {
+            padding: 10px;
+            width: 97%;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+
+        #map {
+            height: 70vh;
+            width: 100%;
+            border: 2px solid #333;
+            border-radius: 8px;
+        }
+
+        .custom-navbar {
+            font-size: 4.5vw;
+            background-color: rgba(248, 248, 248, 1);
+            /* New color with 0.8 transparency */
+            transition: background-color 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .navbar-collapse {
+            position: fixed;
+            top: 56px;
+            /* Navbar height */
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Same color as the navbar */
+            overflow-y: auto;
+            transition: transform 0.3s ease-in-out;
+            /* Animate transform */
+            transform: translateY(-100%);
+            /* Hidden initially */
+        }
+
+        .navbar-collapse.show {
+            transform: translateY(0);
+            /* Slide down when expanded */
+        }
+
+        .nav-item {
+            margin-bottom: 15px;
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        .nav-link,
+        .btn {
+            color: rgb(0, 0, 0) !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .btn:hover {
+            color: #EFF68B !important;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            border-radius: 5px;
+        }
+
+        .modal-header,
+        .modal-footer {
+            border: none;
+        }
+
+        .btn-secondary,
+        .btn-primary {
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Navigation</h1>
+            <p>Made by Yusuf Al-Qardhawi</p>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="masthead">
+            <nav class="navbar navbar-light fixed-top custom-navbar">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav text-md-center nav-justified w-100">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="index.html">Navigation Project
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#exampleModal" data-whatever="freelancer@senniksoft.com">Send
+                                Message</button>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="formd">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="form-control-label">Your
+                                                        Email:</label>
+                                                    <input type="text" class="form-control" id="sender-email">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text"
+                                                        class="form-control-label">Message:</label>
+                                                    <textarea class="form-control" id="message-text"></textarea>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button id="submit" type="button" class="btn btn-primary">Send
+                                                message</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="nav-link" href="#">Say Hello :) </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://www.senniksoft.com">Hire Me !</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Welcome to the Map</h1>
+        <p>This map shows different markers based on the selected level.</p>
+        <div class="button-group">
+            <button onclick="showLevel(1)">Level 1</button>
+            <button onclick="showLevel(2)">Level 2</button>
+            <button onclick="showLevel(3)">Level 3</button>
+        </div>
+        <div class="dropdown-group">
+            <select id="marker2">
+                <option value="">Select Destination</option>
+            </select>
+            <select id="marker1">
+                <option value="">Select From</option>
+            </select>
+        </div>
+        <div class="button-group">
+            <button onclick="navigate()">Navigate</button>
+            <button onclick="showMarker()">Where is it?</button>
+            <button onclick="showUserLocation()">My Location</button>
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        var map = L.map('map').setView([3.07179, 101.49990], 70);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var customIcon1 = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/447/447031.png',
+            iconSize: [4 * window.innerWidth / 100, 4 * window.innerHeight / 100], // 4vw x 4vh
+        });
+
+        var customIcon2 = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/447/447031.png',
+            iconSize: [3 * window.innerWidth / 100, 3 * window.innerHeight / 100], // 3vw x 3vh
+        });
+        var road = L.icon({
+            iconUrl: 'red_dot.png',
+            iconSize: [2 * window.innerWidth / 100, 2 * window.innerHeight / 100], // 3vw x 3vh
+        });
+        var stairs = L.icon({
+            iconUrl: 'logo/stairs.png',
+            iconSize: [2 * window.innerWidth / 100, 2 * window.innerHeight / 100], // 3vw x 3vh
+        });
+        var lift = L.icon({
+            iconUrl: 'logo/lift.png',
+            iconSize: [2 * window.innerWidth / 100, 2 * window.innerHeight / 100], // 3vw x 3vh
+        });
+        var lat = 0;
+        var lng = 0;
+        var user = { id: 'user', geocode: [lat,lng], popUp: "My Location", icon: customIcon2 };
+
+        // Declare each room marker individually
+        var dk1 = { id: 'DK1', geocode: [(3.07145), (101.50016)], popUp: "DK1", icon: customIcon2, neighbours: ['r19'] };
+        var dk2 = { id: 'DK2', geocode: [(3.07250), (101.49933)], popUp: "DK2", icon: customIcon2, neighbours: ['tr6'] };
+        var dk3 = { id: 'DK3', geocode: [(3.07260), (101.49934)], popUp: "DK3", icon: customIcon2, neighbours: ['tr6'] };
+
+        var laman = { id: 'laman', geocode: [(3.07153), (101.50017)], popUp: "Laman Najib", icon: customIcon2, neighbours: ['r16', 'r14'] };
+        var hs = { id: 'hs', geocode: [(3.07206), (101.49990)], popUp: "He & She", icon: customIcon2, neighbours: ['r3'] };
+        var sl = { id: 'sl', geocode: [(3.07232), (101.49947)], popUp: "Student Lounge", icon: customIcon2, neighbours: ['r7'] };
+        var surauL = { id: 'surauL', geocode: [(3.07199), (101.49939)], popUp: "Surau Lelaki", icon: customIcon2, neighbours: ['r1'] };
+        var surauP = { id: 'surauP', geocode: [(3.07113), (101.50003)], popUp: "Surau Perempuan", icon: customIcon2, neighbours: ['r24'] };
+        var HEP = { id: 'HEP', geocode: [(3.07179), (101.49946)], popUp: "HEP Office", icon: customIcon2, neighbours: ['tr1'] };
+        var HEA = { id: 'HEA', geocode: [(3.07165), (101.50026)], popUp: "HEA Office", icon: customIcon2, neighbours: ['r18'] };
+        var Admin = { id: 'Admin', geocode: [(3.07167), (101.50007)], popUp: "Admin Office", icon: customIcon2, neighbours: ['r18'] };
+
+        var th1 = { id: 'th1', geocode: [(3.07140), (101.499770)], popUp: "th1", icon: customIcon2, neighbours: ['a20'] };
+        var th2 = { id: 'th2', geocode: [(3.07127), (101.499890)], popUp: "th2", icon: customIcon2, neighbours: ['a21'] };
+        var th3 = { id: 'th3', geocode: [(3.07118), (101.499970)], popUp: "th3", icon: customIcon2, neighbours: ['a21'] };
+        var th4 = { id: 'th4', geocode: [(3.07116), (101.500370)], popUp: "th4", icon: customIcon2, neighbours: ['a22'] };
+        var th5 = { id: 'th5', geocode: [(3.07123), (101.500440)], popUp: "th5", icon: customIcon2, neighbours: ['a26'] };
+
+        // var mk21 = { id: 'MK21', geocode: [(3.07209), (101.499330)], popUp: "MK21", icon: customIcon2, neighbours: ['r8'] };
+        // var mk22 = { id: 'MK22', geocode: [(3.07223), (101.499300)], popUp: "MK22", icon: customIcon2, neighbours: ['r8'] };
+        // var mk23 = { id: 'MK23', geocode: [(3.07235), (101.499280)], popUp: "MK23", icon: customIcon2, neighbours: ['r8'] };
+        // var mk24 = { id: 'MK24', geocode: [(3.07233), (101.499470)], popUp: "MK24", icon: customIcon2, neighbours: ['r8'] };
+        // var mk25 = { id: 'MK25', geocode: [(3.07223), (101.499490)], popUp: "MK25", icon: customIcon2, neighbours: ['r8'] };
+        // var mk26 = { id: 'MK26', geocode: [(3.07215), (101.499550)], popUp: "MK26", icon: customIcon2, neighbours: ['r8'] };
+
+        var bk1 = { id: 'B1', geocode: [(3.07159), (101.499970)], popUp: "BK1", icon: customIcon2, neighbours: ['r19']};
+        var bk2 = { id: 'B2', geocode: [(3.07153), (101.499935)], popUp: "BK2", icon: customIcon2, neighbours: ['r19']};
+        var bk3 = { id: 'B3', geocode: [(3.07150), (101.499880)], popUp: "BK3", icon: customIcon2, neighbours: ['r19']};
+        var bk4 = { id: 'B4', geocode: [(3.07145), (101.499750)], popUp: "BK4", icon: customIcon2, neighbours: ['r20']};
+        var bk5 = { id: 'B5', geocode: [(3.07140), (101.499770)], popUp: "BK5", icon: customIcon2, neighbours: ['r20']};
+        var bk6 = { id: 'B6', geocode: [(3.07135), (101.499820)], popUp: "BK6", icon: customIcon2, neighbours: ['r20']};
+        var bk7 = { id: 'B7', geocode: [(3.07127), (101.499890)], popUp: "BK7", icon: customIcon2, neighbours: ['r21']};
+        var bk8 = { id: 'B8', geocode: [(3.07118), (101.499970)], popUp: "BK8", icon: customIcon2, neighbours: ['r21']};
+        var bk11 = { id: 'B11', geocode: [(3.07116), (101.500370)], popUp: "B11", icon: customIcon2, neighbours: ['r22']};
+        var bk12 = { id: 'B12', geocode: [(3.07123), (101.500440)], popUp: "B12", icon: customIcon2, neighbours: ['r22']};
+        var bk13 = { id: 'B13', geocode: [(3.07132), (101.500530)], popUp: "B13", icon: customIcon2, neighbours: ['r26']};
+        var bk14 = { id: 'B14', geocode: [(3.07134), (101.500440)], popUp: "B14", icon: customIcon2, neighbours: ['r26']};
+        var bk15 = { id: 'B15', geocode: [(3.07141), (101.500500)], popUp: "B15", icon: customIcon2, neighbours: ['r26']};
+        var bk20 = { id: 'B20', geocode: [(3.07200), (101.499380)], popUp: "B20", icon: customIcon2, neighbours: ['tr1']};
+        var bk21 = { id: 'B21', geocode: [(3.07209), (101.499330)], popUp: "B21", icon: customIcon2, neighbours: ['tr8']};
+        var bk22 = { id: 'B22', geocode: [(3.07223), (101.499300)], popUp: "B22", icon: customIcon2, neighbours: ['tr8']};
+        var bk23 = { id: 'B23', geocode: [(3.07235), (101.499280)], popUp: "B23", icon: customIcon2, neighbours: ['tr8']};
+        var bk24 = { id: 'B24', geocode: [(3.07233), (101.499470)], popUp: "B24", icon: customIcon2, neighbours: ['tr8'] };
+        var bk25 = { id: 'B25', geocode: [(3.07223), (101.499490)], popUp: "B25", icon: customIcon2, neighbours: ['tr8'] };
+        var bk26 = { id: 'B26', geocode: [(3.07215), (101.499550)], popUp: "B26", icon: customIcon2, neighbours: ['tr8'] };
+        var bk27 = { id: 'B27', geocode: [(3.07199), (101.499540)], popUp: "B27", icon: customIcon2, neighbours: ['tr8'] };
+        var bk28 = { id: 'B28', geocode: [(3.07191), (101.499620)], popUp: "B28", icon: customIcon2, neighbours: ['tr2'] };
+        var bk29 = { id: 'B29', geocode: [(3.07195), (101.499705)], popUp: "B29", icon: customIcon2, neighbours: ['tr2'] };
+        var bk30 = { id: 'B30', geocode: [(3.07223), (101.499790)], popUp: "B30", icon: customIcon2, neighbours: ['r4'] };
+        var bk31 = { id: 'B31', geocode: [(3.07236), (101.499710)], popUp: "B31", icon: customIcon2, neighbours: ['r4'] };
+        var bk32 = { id: 'B32', geocode: [(3.07247), (101.499600)], popUp: "B32", icon: customIcon2, neighbours: ['r5'] };
+        var bk33 = { id: 'B33', geocode: [(3.07223), (101.499790)], popUp: "B33", icon: customIcon2, neighbours: ['tr4'] };
+        var bk34 = { id: 'B34', geocode: [(3.07236), (101.499710)], popUp: "B34", icon: customIcon2, neighbours: ['tr4'] };
+        var bk35 = { id: 'B35', geocode: [(3.07247), (101.499600)], popUp: "B35", icon: customIcon2, neighbours: ['tr5'] };
+        var bk36 = { id: 'B36', geocode: [(3.07195), (101.499705)], popUp: "B36", icon: customIcon2, neighbours: ['tr2'] };
+        var bk37 = { id: 'B37', geocode: [(3.07191), (101.499620)], popUp: "B37", icon: customIcon2, neighbours: ['tr2'] };
+
+        var S1 = { id: 'S1', geocode: [(3.07196), (101.49937)], icon: stairs, popUp: "S1", neighbours: ['r1', 'tr1'] };
+        var S2 = { id: 'S2', geocode: [(3.07210), (101.49973)], icon: stairs, popUp: "S2", neighbours: ['tr3', 'r3'] };
+        var S3 = { id: 'S3', geocode: [(3.07253), (101.49952)], icon: stairs, popUp: "S3", neighbours: ['tr5', 'r5'] };
+        var S4 = { id: 'S4', geocode: [(3.07241), (101.49928)], icon: stairs, popUp: "S4", neighbours: ['r7', 'tr7'] };
+        var S5 = { id: 'S5', geocode: [(3.07144), (101.49977)], icon: stairs, popUp: "S5", neighbours: ['a20', 'r20'] };
+        var S6 = { id: 'S6', geocode: [(3.07113), (101.49997)], icon: stairs, popUp: "S6", neighbours: ['a21', 'r21'] };
+        var S7 = { id: 'S7', geocode: [(3.07109), (101.50035)], icon: stairs, popUp: "S7", neighbours: ['r22', 'a22'] };
+        var S8 = { id: 'S8', geocode: [(3.07134), (101.50057)], icon: stairs, popUp: "S8", neighbours: ['r26', 'a26'] };
+        var S9 = { id: 'S9', geocode: [(3.07156), (101.49993)], icon: stairs, popUp: "S9", neighbours: ['r19'] }; //ada t19 yang belum declare
+        var S10 = { id: 'S10', geocode: [(3.07116), (101.50009)], icon: stairs, popUp: "S10", neighbours: ['r24'] };
+        var S11 = { id: 'S11', geocode: [(3.07213), (101.49897)], icon: stairs, popUp: "S11", neighbours: ['L33', 'L13','L23'] };
+        var S12 = { id: 'S12', geocode: [(3.07179), (101.49909)], icon: stairs, popUp: "SBawah 12", neighbours: ['L11', 'L21','L31'] };
+        var S13 = { id: 'S13', geocode: [(3.07250), (101.49899)], icon: stairs, popUp: "SBawah 13", neighbours: ['L15', 'L25','L35'] };
+
+        var r1 = { id: 'r1', geocode: [(3.07190), (101.49951)], icon: road, popUp: "1", neighbours: ['S1','r2', 'r8', 'r9', 'r27','surauL'] };
+        var r2 = { id: 'r2', geocode: [(3.07194), (101.49965)], icon: road, popUp: "2", neighbours: ['r1', 'r10'] };
+        var r3 = { id: 'r3', geocode: [(3.07209), (101.49982)], icon: road, popUp: "3", neighbours: ['r10', 'r4','hs','S2'] };
+        var r4 = { id: 'r4', geocode: [(3.07229), (101.49967)], icon: road, popUp: "4", neighbours: ['r3', 'r5', 'B31', 'B30'] };
+        var r5 = { id: 'r5', geocode: [(3.07245), (101.49951)], icon: road, popUp: "5", neighbours: ['r4', 'r7', 'B32','S3'] };
+        var r6 = { id: 'r6', geocode: [(3.07254), (101.49940)], icon: road, popUp: "6", neighbours: ['r5', 'r7'] };
+        var r7 = { id: 'r7', geocode: [(3.07239), (101.49937)], icon: road, popUp: "7", neighbours: ['r6', 'r8','sl','S4'] };
+        var r8 = { id: 'r8', geocode: [(3.07215), (101.49941)], icon: road, popUp: "8", neighbours: ['r7', 'r1', 'B24'] };
+        var r9 = { id: 'r9', geocode: [(3.07186), (101.49938)], icon: road, popUp: "9", neighbours: ['r1', 'r30'] };
+        var r10 = { id: 'r10', geocode: [(3.07203), (101.49974)], icon: road, popUp: "10", neighbours: ['r3', 'r2', 'r11'] };
+
+        var r11 = { id: 'r11', geocode: [(3.07179), (101.49987)], icon: road, popUp: "11", neighbours: ['r10', 'r12', 'r28'] };
+        var r12 = { id: 'r12', geocode: [(3.07169), (101.49975)], icon: road, popUp: "12", neighbours: ['r11', 'r13'] };
+        var r13 = { id: 'r13', geocode: [(3.07142), (101.49989)], icon: road, popUp: "Bawah 13", neighbours: ['r12', 'r27', 'r15','a20'] };
+        var r14 = { id: 'r14', geocode: [(3.07128), (101.50016)], icon: road, popUp: "14", neighbours: ['r15', 'r29', 'r16', 'r24','laman'] };
+        var r15 = { id: 'r15', geocode: [(3.07135), (101.50005)], icon: road, popUp: "15", neighbours: ['r14', 'r13', 'r16'] };
+        var r16 = { id: 'r16', geocode: [(3.07149), (101.50016)], icon: road, popUp: "16", neighbours: ['r18', 'r15','r14','r17','laman'] };
+        var r17 = { id: 'r17', geocode: [(3.07158), (101.50009)], icon: road, popUp: "17", neighbours: ['r16', 'r19','r18'] };
+        var r18 = { id: 'r18', geocode: [(3.07160), (101.50016)], icon: road, popUp: "18", neighbours: ['r17', 'HEA','Admin'] };
+        var r19 = { id: 'r19', geocode: [(3.07147), (101.49997)], icon: road, popUp: "19", neighbours: ['r17', 'r20', 'S9','B1','B2','B3','DK1'] };
+        var r20 = { id: 'r20', geocode: [(3.07137), (101.49985)], icon: road, popUp: "20", neighbours: ['r19', 'r21', 'S5','B4','B5','B6','S5'] };
+
+        var r21 = { id: 'r21', geocode: [(3.07123), (101.49999)], icon: road, popUp: "21", neighbours: ['r20', 'r23','S6','S6','B7','B8'] };
+        var r22 = { id: 'r22', geocode: [(3.07120), (101.50030)], icon: road, popUp: "22", neighbours: ['r23', 'r26','S7','B11','B12'] };
+        var r23 = { id: 'r23', geocode: [(3.07120), (101.50016)], icon: road, popUp: "atas 23", neighbours: ['r21', 'r22'] };
+        var r24 = { id: 'r24', geocode: [(3.07117), (101.50016)], icon: road, popUp: "bawah 24", neighbours: ['r25', 'r14', 'surauP','a22','a21','S10'] };
+        var r25 = { id: 'r25', geocode: [(3.07103), (101.50012)], icon: road, popUp: "25", neighbours: ['r24'] };
+        var r26 = { id: 'r26', geocode: [(3.07130), (101.50049)], icon: road, popUp: "26", neighbours: ['r22', 'S8','B13','B14','B15'] };
+        var r27 = { id: 'r27', geocode: [(3.07164), (101.49971)], icon: road, popUp: "27", neighbours: ['r1', 'r13'] };
+        var r28 = { id: 'r28', geocode: [(3.07179), (101.49968)], icon: road, popUp: "28", neighbours: ['r11', 'r1', 'r12'] };
+        var r29 = { id: 'r29', geocode: [(3.07140), (101.50041)], icon: road, popUp: "29", neighbours: ['r14','r16','r26'] };
+        var r30 = { id: 'r30', geocode: [(3.07243), (101.49889)], icon: road, popUp: "30", neighbours: ['L14'] };
+        
+        //blok lectrer flor, also buang r30
+        var L11 = { id: 'L11', geocode: [(3.07174), (101.499174)], icon: road, popUp: "L11", neighbours: ['L12','S12'] };
+        var L12 = { id: 'L12', geocode: [(3.07187), (101.499100)], icon: road, popUp: "L12", neighbours: ['L13', 'L11'] };
+        var L13 = { id: 'L13', geocode: [(3.07211), (101.499040)], icon: road, popUp: "L13", neighbours: ['L12', 'L14','S11'] };
+        var L14 = { id: 'L14', geocode: [(3.07230), (101.499030)], icon: road, popUp: "L14", neighbours: ['L13', 'L15','r30'] };
+        var L15 = { id: 'L15', geocode: [(3.07247), (101.499030)], icon: road, popUp: "L15", neighbours: ['S13', 'L14'] };
+
+        var L21 = { id: 'L21', geocode: [(3.07174), (101.499174)], icon: road, popUp: "L21", neighbours: ['r9', 'L22','S12'] };
+        var L22 = { id: 'L22', geocode: [(3.07187), (101.499100)], icon: road, popUp: "L22", neighbours: ['L23', 'L21'] };
+        var L23 = { id: 'L23', geocode: [(3.07211), (101.499040)], icon: road, popUp: "L23", neighbours: ['L22', 'L24','S11'] };
+        var L24 = { id: 'L24', geocode: [(3.07230), (101.499030)], icon: road, popUp: "L24", neighbours: ['L23', 'L25'] };
+        var L25 = { id: 'L25', geocode: [(3.07247), (101.499030)], icon: road, popUp: "L25", neighbours: ['S13', 'L24'] };
+
+        var L31 = { id: 'L31', geocode: [(3.07174), (101.499174)], icon: road, popUp: "L31", neighbours: ['L32','S12'] };
+        var L32 = { id: 'L32', geocode: [(3.07187), (101.499100)], icon: road, popUp: "L32", neighbours: ['L33', 'L31'] };
+        var L33 = { id: 'L33', geocode: [(3.07211), (101.499040)], icon: road, popUp: "L33", neighbours: ['L32', 'L34','S11'] };
+        var L34 = { id: 'L34', geocode: [(3.07230), (101.499030)], icon: road, popUp: "L34", neighbours: ['L33', 'L35','r30'] };
+        var L35 = { id: 'L35', geocode: [(3.07247), (101.499030)], icon: road, popUp: "L35", neighbours: ['S13', 'L34'] };
+
+        // 2nd floor cs2
+        var tr1 = { id: 'tr1', geocode: [(3.07190), (101.49951)], icon: road, popUp: "tr1", neighbours: ['tr2', 'tr8','HEP','B20','S1'] };
+        var tr2 = { id: 'tr2', geocode: [(3.07194), (101.49965)], icon: road, popUp: "tr2", neighbours: ['tr1','B28','B29','B36','B37'] };
+        var tr3 = { id: 'tr3', geocode: [(3.07209), (101.49982)], icon: road, popUp: "tr3", neighbours: ['tr4','S2'] };
+        var tr4 = { id: 'tr4', geocode: [(3.07229), (101.49967)], icon: road, popUp: "tr4", neighbours: ['tr3', 'tr5', 'B33', 'B34'] };
+        var tr5 = { id: 'tr5', geocode: [(3.07245), (101.49951)], icon: road, popUp: "tr5", neighbours: ['tr4', 'tr7', 'B35','S3'] };
+        var tr6 = { id: 'tr6', geocode: [(3.07254), (101.49940)], icon: road, popUp: "tr6", neighbours: ['tr5', 'tr7','DK2','DK3'] };
+        var tr7 = { id: 'tr7', geocode: [(3.07239), (101.49937)], icon: road, popUp: "tr7", neighbours: ['tr6', 'tr8','S4'] };
+        var tr8 = { id: 'tr8', geocode: [(3.07215), (101.49941)], icon: road, popUp: "tr8", neighbours: ['tr7', 'tr1','B21','B22','B23', 'B24','B25','B26','B27'] };
+
+        // 1st floor cs1
+        var a20 = { id: 'a20', geocode: [(3.07137), (101.49985)], icon: road, popUp: "a20", neighbours: ['r13', 'a21', 'th1','S5','r13'] };
+        var a21 = { id: 'a21', geocode: [(3.07123), (101.49999)], icon: road, popUp: "a21", neighbours: ['a21', 'r24','th2','th3','S6'] };
+        var a22 = { id: 'a22', geocode: [(3.07120), (101.50030)], icon: road, popUp: "a22", neighbours: ['r24', 'a26','S7','th4'] };
+        var a26 = { id: 'a26', geocode: [(3.07130), (101.50049)], icon: road, popUp: "a26", neighbours: ['a22', 'th5','S8'] };
+
+
+        var level1Markers = [user,laman, hs, sl, surauL, surauP, HEP, HEA, Admin,
+            dk1, dk2, dk3, th1, th2, th3, th4, th5, bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk11, bk12, bk13, bk14, bk15, bk20, bk21, bk22, bk23, bk24, bk25, bk26, bk27, bk28, bk29, bk30, bk31, bk32, bk33, bk34, bk35, bk36, bk37];
+        var level2Markers = [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13];
+        var level3Markers = [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13,
+                            r1, r2, r3, r4, r5, r6, r7, r8, r9, r10,
+                            r11, r12, r13, r14, r15, r16, r17, r18, r19, r20,
+                            r21, r22, r23, r24, r25, r26, r27, r28, r29,r30,
+                            L11,L12,L13,L14,L15,L21,L22,L23,L24,L25,L31,L32,L33,L34,L35,
+                            a20,a21,a22,a26,tr1,tr2,tr3,tr4,tr5,tr6,tr7,tr8];
+        var awi = 0;
+        var markers = L.layerGroup().addTo(map);
+        var roadArray = [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13,
+                        r1, r2, r3, r4, r5, r6, r7, r8, r9,
+                        r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20,
+                        r21, r22, r23, r24, r25, r26, r27, r28, r29,r30,
+                        L11,L12,L13,L14,L15,L21,L22,L23,L24,L25,L31,L32,L33,L34,L35,
+                        a20,a21,a22,a26,tr1,tr2,tr3,tr4,tr5,tr6,tr7,tr8];
+        var polyline;
+        var nearestMarkerlat = 0;
+        var nearestMarkerlng = 0;
+        var nearestMarkerID = '';
+        var currentMarkers = [];
+        var allMarkers = {
+            'user': user,'laman': laman, 'hs': hs, 'sl': sl, 'surauL': surauL, 'surauP': surauP, 'HEP': HEP, 'HEA': HEA, 'Admin': Admin,
+            'DK1': dk1, 'DK2': dk2, 'DK3': dk3, 'th1': th1, 'th2': th2, 'th3': th3, 'th4': th4, 'th5': th5,
+
+            'B1': bk1, 'B2': bk2, 'B3': bk3, 'B4': bk4, 'B5': bk5,
+            'B6': bk6, 'B7': bk7, 'B8': bk8, 'B11': bk11, 'B12': bk12,
+            'B13': bk13, 'B14': bk14, 'B15': bk15, 'B20': bk20, 'B21': bk21,
+            'B22': bk22, 'B23': bk23, 'B24': bk24, 'B25': bk25, 'B26': bk26,
+            'B27': bk27, 'B28': bk28, 'B29': bk29,
+            'B30': bk30, 'B31': bk31, 'B32': bk32, 'B33': bk33, 'B34': bk34, 'B35': bk35,
+            'B36': bk36, 'B37': bk37,
+
+            'S1': S1, 'S2': S2, 'S3': S3, 'S4': S4, 'S5': S5,
+            'S6': S6, 'S7': S7, 'S8': S8, 'S9': S9, 'S10': S10,
+            'S11': S11, 'S12': S12, 'S13': S13,
+
+            'r1': r1, 'r2': r2, 'r3': r3, 'r4': r4, 'r5': r5,
+            'r6': r6, 'r7': r7, 'r8': r8, 'r9': r9, 'r10': r10,
+            'r11': r11, 'r12': r12, 'r13': r13, 'r14': r14, 'r15': r15,
+            'r16': r16, 'r17': r17, 'r18': r18, 'r19': r19, 'r20': r20,
+            'r21': r21, 'r22': r22, 'r23': r23, 'r24': r24, 'r25': r25,
+            'r26': r26, 'r27': r27, 'r28': r28, 'r29': r29, 'r30': r30, 
+
+            'L11': L11, 'L12': L12, 'L13': L13, 'L14': L14, 'L15': L15,
+            'L21': L21, 'L22': L22, 'L23': L23, 'L24': L24, 'L25': L25,
+            'L31': L31, 'L32': L32, 'L33': L33, 'L34': L34, 'L35': L35,
+            'a20': a20, 'a21': a21, 'a22': a22, 'a26': a26,
+            'tr1': tr1, 'tr2': tr2, 'tr3': tr3, 'tr4': tr4, 'tr5': tr5,'tr6': tr6, 'tr7': tr7, 'tr8': tr8
+        };
+        var distances = {};
+        var previous = {};
+        var queue = [];
+
+        function showLevel(level) {
+            markers.clearLayers();
+            var selectedMarkers = level === 1 ? level1Markers : level === 2 ? level2Markers : level3Markers;
+            var dropdown = document.getElementById("marker2");
+            dropdown.innerHTML = '<option value="">Select Destination</option>';
+            selectedMarkers.forEach(function (marker) {
+                L.marker([marker.geocode[0], marker.geocode[1]], { icon: marker.icon }).addTo(markers).bindPopup(marker.popUp);
+                var option = document.createElement("option");
+                option.value = marker.id;
+                option.text = marker.popUp;
+                dropdown.appendChild(option);
+            });
+            selectedMarkers = level1Markers;
+            dropdown = document.getElementById("marker1");
+            dropdown.innerHTML = '<option value="">Select From</option>';
+            selectedMarkers.forEach(function (marker) {
+                option = document.createElement("option");
+                option.value = marker.id;
+                option.text = marker.popUp;
+                dropdown.appendChild(option);
+            });
+        }
+
+        function showMarker() {
+            markers.clearLayers();
+            var selectedMarkerId = document.getElementById('marker2').value;
+            marker = allMarkers[selectedMarkerId];
+            var roomMarker = L.marker([marker.geocode[0], marker.geocode[1]], { icon: customIcon2 }).addTo(markers).bindPopup(marker.popUp).openPopup();
+            map.setView([marker.geocode[0], marker.geocode[1]], 70);
+        }
+
+        function findNearestMarker(lat, lng, levelMarkers) {
+            var nearestMarker = { id: '', geocode: [(0), (0)], popUp: "" };
+            var ids;
+            var nearestDistance = Infinity;
+            levelMarkers.forEach(function (marker) {
+                var distance = calculateDistance(lat, lng, marker.geocode[0], marker.geocode[1]);
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    ids = marker.id;
+                }
+            });
+            return ids;
+        }
+        function findNearestMarkerlat(lat, lng, levelMarkers) {
+            var nearestMarker = { geocode: [(0), (0)], popUp: "" };
+            var geo1 = 0;
+            var nearestDistance = Infinity;
+            levelMarkers.forEach(function (marker) {
+                var distance = calculateDistance(lat, lng, marker.geocode[0], marker.geocode[1]);
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    geo1 = marker.geocode[0];
+                }
+            });
+            return geo1;
+        }
+        function findNearestMarkerlng(lat, lng, levelMarkers) {
+            var nearestMarker = { geocode: [(0), (0)], popUp: "" };
+            var geo2 = 0;
+            var nearestDistance = Infinity;
+            levelMarkers.forEach(function (marker) {
+                var distance = calculateDistance(lat, lng, marker.geocode[0], marker.geocode[1]);
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    geo2 = marker.geocode[1];
+                }
+            });
+            return geo2;
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            function toRadians(degrees) {
+                return degrees * Math.PI / 180;
+            }
+
+            var R = 6371e3; // Radius of the Earth in meters
+            var phi1 = toRadians(lat1);
+            var phi2 = toRadians(lat2);
+            var deltaPhi = toRadians(lat2 - lat1);
+            var deltaLambda = toRadians(lon1 - lon2); // Correcting the order here
+
+            var a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+                Math.cos(phi1) * Math.cos(phi2) *
+                Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            return R * c;
+        }
+
+        function dijkstra(start, end, graph) {
+            var distances = {};
+            var previous = {};
+            var pq = new PriorityQueue();
+
+            for (var node in graph) {
+                distances[node] = Infinity;
+                previous[node] = null;
+            }
+
+            distances[start.id] = 0;
+            pq.enqueue(start.id, 0);
+
+            while (!pq.isEmpty()) {
+                var current = pq.dequeue().element;
+
+                if (current === end.id) break;
+
+                var neighbors = graph[current].neighbours;
+                for (var neighbor of neighbors) {
+                    var distance = distances[current] + calculateDistance(
+                        graph[current].geocode[0],
+                        graph[current].geocode[1],
+                        graph[neighbor].geocode[0],
+                        graph[neighbor].geocode[1]
+                    );
+
+                    if (distance < distances[neighbor]) {
+                        distances[neighbor] = distance;
+                        previous[neighbor] = current;
+                        pq.enqueue(neighbor, distance);
+                    }
+                }
+            }
+
+            var path = [];
+            var at = end.id;
+            while (at !== null) {
+                path.unshift(graph[at]);
+                at = previous[at];
+            }
+
+            return path;
+        }
+
+        var userMarker,selectedMarkers,polylinePoints,path,endMarker;
+        function navigate() {
+            var selectedMarkerId = document.getElementById('marker2').value;
+            var startMarkerId = document.getElementById('marker1').value;
+            var start = allMarkers[startMarkerId];
+            var selMark = allMarkers[selectedMarkerId];
+            var end = allMarkers[selectedMarkerId];
+
+            if(startMarkerId==user.id){
+                navigator.geolocation.getCurrentPosition(function (position) {
+                lat = position.coords.latitude;
+                lng = position.coords.longitude;
+                nearestMarkerlat = findNearestMarkerlat(lat, lng, roadArray);
+                nearestMarkerlng = findNearestMarkerlng(lat, lng, roadArray);
+                nearestMarkerID = findNearestMarker(lat, lng, roadArray);
+                start = allMarkers[nearestMarkerID];
+
+                if (polyline) {
+                    map.removeLayer(polyline);
+                    map.removeLayer(userMarker);
+                }
+
+                map.setView([lat, lng], 70);
+                markers.clearLayers();
+                userMarker = L.marker([lat, lng], { icon: customIcon2 }).addTo(map).bindPopup("You are here ").openPopup();
+                endMarker = L.marker([end.geocode[0], end.geocode[1]], { icon: customIcon2 }).addTo(map).bindPopup(end.popUp).openPopup();
+                selectedMarkers = level2Markers;
+                selectedMarkers.forEach(function (marker) {
+                L.marker([marker.geocode[0], marker.geocode[1]], { icon: marker.icon }).addTo(markers).bindPopup(marker.popUp);
+                })
+                polylinePoints = [
+                    [lat, lng],
+                ];
+
+                path = dijkstra(start, end, allMarkers);
+
+                path.forEach(function (road) {
+                    polylinePoints.push(road.geocode);
+                });
+
+                polyline = L.polyline(polylinePoints, { color: 'blue' }).addTo(map);
+                map.fitBounds(polyline.getBounds());
+            });
+            }
+            else{
+                if (polyline) {
+                    map.removeLayer(polyline);
+                    map.removeLayer(userMarker);
+                }
+                map.setView([start.geocode[0], start.geocode[1]], 70);
+                markers.clearLayers();
+                userMarker = L.marker([start.geocode[0], start.geocode[1]], { icon: customIcon2 }).addTo(map).bindPopup(start.popUp).openPopup();
+                endMarker = L.marker([end.geocode[0], end.geocode[1]], { icon: customIcon2 }).addTo(map).bindPopup(end.popUp).openPopup();
+                selectedMarkers = level2Markers;
+                selectedMarkers.forEach(function (marker) {
+                L.marker([marker.geocode[0], marker.geocode[1]], { icon: marker.icon }).addTo(markers).bindPopup(marker.popUp);
+                })
+                polylinePoints = [
+                    [start.geocode[0], start.geocode[1]],
+                ];
+
+                path = dijkstra(start, end, allMarkers);
+
+                path.forEach(function (road) {
+                    polylinePoints.push(road.geocode);
+                });
+
+                polyline = L.polyline(polylinePoints, { color: 'blue' }).addTo(map);
+                map.fitBounds(polyline.getBounds());
+            }
+        }
+
+        // Priority Queue implementation
+        function PriorityQueue() {
+            this.collection = [];
+        }
+
+        PriorityQueue.prototype.enqueue = function (element, priority) {
+            var queueElement = { element, priority };
+            var added = false;
+
+            for (var i = 0; i < this.collection.length; i++) {
+                if (queueElement.priority < this.collection[i].priority) {
+                    this.collection.splice(i, 0, queueElement);
+                    added = true;
+                    break;
+                }
+            }
+
+            if (!added) {
+                this.collection.push(queueElement);
+            }
+        };
+
+        PriorityQueue.prototype.dequeue = function () {
+            return this.collection.shift();
+        };
+
+        PriorityQueue.prototype.isEmpty = function () {
+            return this.collection.length === 0;
+        };
+
+
+        // Modified showUserLocation function
+        function showUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                    map.setView([lat, lng], 70);
+                    var userMarker = L.marker([lat, lng], { icon: customIcon2 }).addTo(map).bindPopup("You are here").openPopup();
+                })
+            };
+        }
+        // Show Level 1 markers by default
+        showLevel(3);
+
+    </script>
+</body>
+
+</html>
