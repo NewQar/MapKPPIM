@@ -14,7 +14,7 @@
             background-image: url('headerFYP.png');
             background-size: cover;
             background-position: center;
-            height: 50vh;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,13 +22,15 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         .header-content h1 {
             color: #EFF68B;
             position: relative;
             z-index: 2;
-            font-family: "Times New Roman", Times, serif;
+            font-family: "Copperplate", Fantasy;
+            text-shadow: 2px 2px 4px #000000;
             font-size: 8vw;
             text-align: center;
             margin: 5px;
@@ -36,6 +38,8 @@
         }
 
         .header-content h3 {
+            font-family: "Copperplate", Fantasy;
+            text-shadow: 2px 2px 4px #000000;
             color: #ffffff;
             position: relative;
             z-index: 2;
@@ -47,14 +51,15 @@
 
         .header-content p {
             color: #ffffff;
+            font-family: "Copperplate", Fantasy;
+            text-shadow: 2px 2px 4px #000000;
             position: relative;
             z-index: 2;
-            font-size: 2.2vw;
+            font-size: 2vw;
             text-align: center;
             margin: 5px;
             animation: fadeIn 2s ease-in-out;
         }
-
 
         body,
         html {
@@ -74,23 +79,23 @@
 
         .container h1 {
             color: #EFF68B;
-            font-family: "Times New Roman", Times, serif;
-            font-size: 7vw;
+            font-family: "Copperplate", Fantasy;
+            font-size: 55px;
+            margin-top: -20px;
             text-align: center;
             margin: 5px;
         }
 
         .container h2 {
             color: #EFF68B;
-            font-family: "Times New Roman", Times, serif;
-            margin-top: 15px;
-            font-size: 5vw;
+            font-family: "Copperplate", Fantasy;
+            font-size: 30px;
             text-align: center;
         }
 
         .container p {
             color: white;
-            font-size: 2.4vw;
+            font-size: 16px;
             text-align: center;
             margin: 5px;
         }
@@ -113,6 +118,7 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
         .button-group1 button:hover {
             background-color: #EFF68B;
         }
@@ -144,6 +150,7 @@
         .dropdown-group {
             display: flex;
             justify-content: center;
+            padding: 0px 5px;
             gap: 10px;
             text-align: center;
             margin-bottom: 10px;
@@ -152,11 +159,12 @@
         .dropdown-group select {
             flex: 1;
             padding: 10px;
-            width: 97%;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
             font-size: 12px;
             cursor: pointer;
         }
-
 
         #map {
             height: 70vh;
@@ -230,6 +238,43 @@
         .btn-secondary,
         .btn-primary {
             border-radius: 5px;
+        }
+
+        /* Media Queries for responsive design */
+        @media (max-width: 768px) {
+            header {
+                background-position: top center;
+                background-size: auto 100%;
+                height: 80vh;
+            }
+
+            .header-content h1 {
+                font-size: 8vw;
+            }
+
+            .header-content h3 {
+                font-size: 5vw;
+            }
+
+            .header-content p {
+                font-size: 2.2vw;
+            }
+
+            .container h1 {
+                font-size: 28px;
+                text-align: center;
+                margin: 5px;
+            }
+
+            .container h2 {
+                font-size: 24px;
+                text-align: center;
+            }
+
+            .container p {
+                font-size: 14px;
+
+            }
         }
     </style>
 </head>
@@ -306,8 +351,9 @@
     </div>
 
     <div class="container">
-     <h2><br>How to use?</h2>
-        <p>Choose a marker group, then choose your destination<br><br>Buttons:<br>Navigate - Shows you the route to the room.<br>
+        <h1><br>How to use?</h1>
+        <p>Choose a marker group, then choose your destination<br><br>Buttons:<br>Navigate - Shows you the route to the
+            room.<br>
             Where is it - Shows where the room is from the Select Destination option<br>
             My Location - Finds where you are currently
         </p>
@@ -336,7 +382,7 @@
 
         <div id="map"></div>
         <div class="button-group">
-        <!-- <button onclick="showLevel(3)">Technical Button (Takyah Press) </button> -->
+            <!-- <button onclick="showLevel(3)">Technical Button (Takyah Press) </button> -->
         </div>
     </div>
 
@@ -523,16 +569,16 @@
         var level3Markers = [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13];
         var level4Markers = [];
         var FromMarkers = [user, laman, hs, sl, surauL, surauP, HEP, HEA, Admin,
-                            dk1, dk2, dk3, th1, th2, th3, th4, th5, bk1, bk2, bk3, 
-                            bk4, bk5, bk6, bk7, bk8, bk11, bk12, bk13, bk14, bk15, bk20, 
-                            bk21, bk22, bk23, bk24, bk25, bk26, bk27, bk28, bk29, bk30, bk31, 
-                            bk32, bk33, bk34, bk35, bk36, bk37];
-        var RoadMarkers =[S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13,
-                            r1, r2, r3, r4, r5, r6, r7, r8, r9, r10,
-                            r11, r12, r13, r14, r15, r16, r17, r18, r19, r20,
-                            r21, r22, r23, r24, r25, r26, r27, r28, r29, r30,
-                            L11, L12, L13, L14, L15, L21, L22, L23, L24, L25, L31, L32, L33, L34, L35,
-                            a20, a21, a22, a26, tr1, tr2, tr3, tr4, tr5, tr6, tr7, tr8 ]
+            dk1, dk2, dk3, th1, th2, th3, th4, th5, bk1, bk2, bk3,
+            bk4, bk5, bk6, bk7, bk8, bk11, bk12, bk13, bk14, bk15, bk20,
+            bk21, bk22, bk23, bk24, bk25, bk26, bk27, bk28, bk29, bk30, bk31,
+            bk32, bk33, bk34, bk35, bk36, bk37];
+        var RoadMarkers = [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13,
+            r1, r2, r3, r4, r5, r6, r7, r8, r9, r10,
+            r11, r12, r13, r14, r15, r16, r17, r18, r19, r20,
+            r21, r22, r23, r24, r25, r26, r27, r28, r29, r30,
+            L11, L12, L13, L14, L15, L21, L22, L23, L24, L25, L31, L32, L33, L34, L35,
+            a20, a21, a22, a26, tr1, tr2, tr3, tr4, tr5, tr6, tr7, tr8]
         var awi = 0;
         var markers = L.layerGroup().addTo(map);
         var roadArray = [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13,
