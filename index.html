@@ -437,9 +437,9 @@
         </div>
 
         <div id="map"></div>
-<!--         <div class="button-group">
+        <div class="button-group">
             <button onclick="showLevel(5)">Technical Button (Takyah Press) </button>
-        </div> -->
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -497,7 +497,8 @@
         var Admin = { id: 'Admin', geocode: [(3.07167), (101.50007)], popUp: "Admin Office (Level 2)", icon: customIcon2, neighbours: ['r18'] };
 
         var DrSV = { id: 'DrSV', geocode: [(3.07184), (101.49910)], popUp: "Dr Sharifalillah (Level 1)", icon: customIcon2, neighbours: ['L12'] };
-
+        var SirRid = { id: 'SirRid', geocode: [(3.07238), (101.49907)], popUp: "Sir Ridhwan (Level 2)", icon: customIcon2, neighbours: ['L24'] };
+        
         var th1 = { id: 'th1', geocode: [(3.07140), (101.499770)], popUp: "TH1 (Level 1)", icon: customIcon2, neighbours: ['a20'] };
         var th2 = { id: 'th2', geocode: [(3.07127), (101.499890)], popUp: "TH2 (Level 1)", icon: customIcon2, neighbours: ['a21'] };
         var th3 = { id: 'th3', geocode: [(3.07118), (101.499970)], popUp: "TH3 (Level 1)", icon: customIcon2, neighbours: ['a21'] };
@@ -600,7 +601,7 @@
         var L21 = { id: 'L21', geocode: [(3.07174), (101.499174)], icon: road, popUp: "L21", neighbours: ['r9', 'L22', 'S12'] };
         var L22 = { id: 'L22', geocode: [(3.07187), (101.499100)], icon: road, popUp: "L22", neighbours: ['L23', 'L21'] };
         var L23 = { id: 'L23', geocode: [(3.07211), (101.499040)], icon: road, popUp: "L23", neighbours: ['L22', 'L24', 'S11'] };
-        var L24 = { id: 'L24', geocode: [(3.07230), (101.499030)], icon: road, popUp: "L24", neighbours: ['L23', 'L25'] };
+        var L24 = { id: 'L24', geocode: [(3.07230), (101.499030)], icon: road, popUp: "L24", neighbours: ['L23', 'L25','SirRid'] };
         var L25 = { id: 'L25', geocode: [(3.07247), (101.499030)], icon: road, popUp: "L25", neighbours: ['S13', 'L24'] };
 
         var L31 = { id: 'L31', geocode: [(3.07174), (101.499174)], icon: road, popUp: "L31", neighbours: ['L32', 'S12'] };
@@ -629,7 +630,7 @@
         var level1Markers = [dk1, dk2, dk3, th1, th2, th3, th4, th5, bk1, bk2, bk3, bk4, bk5, bk6, bk7, bk8, bk11, bk12, bk13, bk14, bk15, bk20, bk21, bk22, bk23, bk24, bk25, bk26, bk27, bk28, bk29, bk30, bk31, bk32, bk33, bk34, bk35, bk36, bk37];
         var level2Markers = [laman, hs, sl, surauL, surauP, HEP, HEA, Admin,];
         var level3Markers = [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13];
-        var level4Markers = [DrSV];
+        var level4Markers = [DrSV, SirRid];
         var FromMarkers = [user, laman, hs, sl, surauL, surauP, HEP, HEA, Admin,
             dk1, dk2, dk3, th1, th2, th3, th4, th5, bk1, bk2, bk3,
             bk4, bk5, bk6, bk7, bk8, bk11, bk12, bk13, bk14, bk15, bk20,
@@ -656,7 +657,7 @@
         var currentMarkers = [];
         var allMarkers = {
             'user': user, 'laman': laman, 'hs': hs, 'sl': sl, 'surauL': surauL, 'surauP': surauP, 'HEP': HEP, 'HEA': HEA, 'Admin': Admin,
-            'DrSV': DrSV,
+            'DrSV': DrSV, 'SirRid' : SirRid,
             
             'DK1': dk1, 'DK2': dk2, 'DK3': dk3, 'th1': th1, 'th2': th2, 'th3': th3, 'th4': th4, 'th5': th5,
 
